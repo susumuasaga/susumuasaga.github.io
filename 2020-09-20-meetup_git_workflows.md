@@ -3,35 +3,48 @@
 * TOC
 {:toc}
 
-## Branching
+## Pequeno Histórico do Git
 
-* **Branching** é a duplicação de um objeto sob controle de versão (como um arquivo de código-fonte ou uma árvore de diretório).
-* Cada objeto pode, a partir daí, ser modificado separadamente em paralelo de forma que os objetos se tornam diferentes.
-* Nesse contexto os objetos são chamados de **branches**.
+* Criado por Linus Torvalds em 2005 para o desenvolvimento do kernel de Linux
+* Características
+  * Velocidade
+  * Capacidade de lidar com projetos grandes
+  * Forte suporte para o desenvolvimento não linear
+  * Sistema distribuído
+  * Proteções fortes contra a corrupção
+* Histórico
+  * 3 de abril: início do desenvolvimento
+  * 7 de abril: o projeto se tornou auto-hospedado
+  * 18 de abril: realizado o primeiro merge de múltiplos branches
+  * 29 de abril: o Git registrou aplicações de patches ao kernel do Linux na taxa de 6.7 por segundo
+  * 16 de junho: a entrega do kernel do Linux inteiramente gerenciada pelo Git
+  * 11 de julho: entregue a versão 0.99.0
+  * 26 de julho, Torvalds deixou o desenvolvimento a cargo de Junio Hamano
+
+## Branches
+
+* Um **branch** é uma sequência particular de commits para a base de código
+* O **head**, ou **ponta**, de um branch é o último commit nessa sequência
 
 | ![](/images/series-commits.png) |
 | :-------------------------------: |
 |         **Branch e head**         |
 
-* Os usuários do sistema de controle de versão pode branchear qualquer branch.
-* O branching também geralmente implica na capacidade de posteriormente mergear ou integrar as mudanças de volta ao branch pai.
+* **Branchear** é criar um novo branch, dividindo o branch original em dois
+* Branches se **mergeiam** quando os commits de uma branch são aplicadas a outra
 
 | ![](/images/split-and-merge.png) |
 | :--------------------------------: |
-|        **Branch e merge**        |
+|        **Divisão e merge**         |
 
-### Vantagens de Branching
-
-* Permite que partes do software sejam desenvolvidas em paralelo.
-* Facilita a manter vários releases em produção.
-* Permite que os desenvolvedores isolem as mudanças sem desestabilizar a base de código, por exemplo, correções para bugs, novos features, integração de versões.
-
-### Desvantagens de Branching
-
-* Branchear é fácil, mergear é difícil.
-* **Conflito textual** × **conflito semântico**.
-* Não há como criar um algoritmo para resolver conflitos automaticamente.
-* Muitos times gastam uma quantidade excessiva de tempo lidando com seu emaranhado de branches.
+* Branchear é fácil
+* Mergear é difícil
+  * **Conflito textual** × **conflito semântico**
+  * O trabalhos feitos isoladamente devem ser combinados em uma atualização de consenso
+  * Não há como criar um algoritmo para chegar ao consenso automaticamente
+  * Os humanos precisam chegar ao consenso
+    * Pode envolver a mistura de partes escolhidas de diferentes atualizações
+    * Frequentemente o consenso só pode ser atingido com atualizações originais para resolver conflitos
 
 |               ![](/images/leroy-branch.jpg)                |
 | :----------------------------------------------------------: |
