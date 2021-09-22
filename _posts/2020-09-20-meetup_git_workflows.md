@@ -5,16 +5,14 @@
 
 ## Branching
 
-* **Branching** é a duplicação de um objeto sob controle de versão (como um arquivo de código-fonte ou uma árvore de diretório).
-* Cada objeto pode, a partir daí, ser modificado separadamente em paralelo de forma que os objetos se tornam diferentes.
-* Nesse contexto os objetos são chamados de **branches**.
-
 | ![](/images/series-commits.png) |
 | :-------------------------------: |
 |         **Branch e head**         |
 
-* Os usuários do sistema de controle de versão pode branchear qualquer branch.
-* O branching também geralmente implica na capacidade de posteriormente mergear ou integrar as mudanças de volta ao branch pai.
+* **Branching** é a duplicação de um objeto sob controle de versão (como um arquivo de código-fonte ou uma árvore de diretório)
+* Cada objeto pode, a partir daí, ser modificado separadamente em paralelo de forma que os objetos se tornam diferentes
+* Nesse contexto os objetos são chamados de **branches**
+* O branching também geralmente implica na capacidade de posteriormente mergear ou integrar as mudanças para o branch pai
 
 | ![](/images/split-and-merge.png) |
 | :--------------------------------: |
@@ -48,103 +46,79 @@ Criado por [Vincent Driessen em 2010](https://nvie.com/posts/a-successful-git-br
 ### Branch Principal
 
 *  O **branch principal** é um branch especial no **repositório central** que consideramos ser o estado corrente do código do time
-   *  Para iniciar um novo trabalho: branchear da linha principal para o repositório local
-   *  Se eu estiver trabalhando nisso por um tempo, posso me manter atualizado com as mudanças no branch principal **mergeando as mudanças do branch principal para meu branch local**
-   *  Sempre que quiser compartilhar seu trabalho com o resto do time: **mergear seu branch local para o branch principal** (**integração com o branch principal**)
-   *  Se quiser criar uma nova versão do produto para lançamento, pode começar com o branch principal corrente
-      *  Se precisar corrigir bugs para tornar o produto estável o suficiente para o release, pode usar um Branch de Release
+   *  Para iniciar um novo trabalho: branchear do branch principal para um branch de trabalho
+   *  Sempre que quiser compartilhar seu trabalho com o resto do time: **mergear seu branch de trabalho para o branch principal** (**integração com o branch principal**)
 *  No Git-flow, o branch principal é denominado `origin/develop`
 
 | ![](/images/main-branch.png) |
 | :----------------------------: |
 |      **Branch principal**      |
 
-### Integração por Feature
+### Branches de Feature
 
-* Desenvolvedores abrem uma branch quando começam a trabalhar em um feature
-* Continuam trabalhando **nesse branch até terminar o feature**
-* Integram com o branch principal
-* Alternativa à integração contínua
-
-#### Exemplo
-
-* O desenvolvedor pega o feature para adicionar a cobrança de ICMS sobre as vendas no website
-  
-  * Cria uma nova branch, `adicionar_cobranca_de_icms` começando do head do `develop`
-  * Trabalha no feature cometendo o commit T0
-* Enquanto está trabalhando, outros features vão pousando no `develop`
-
-  * De vez em quando, pode **mergear do `develop` para o branch do feature** para que possa saber se algum afetará seu feature
-* Quando **terminar de trabalhar no feature**:
-  
-  * Fazer a **integração no branch principal** para incorporar o feature no produto
-    * No Git-flow, a integração do feature é feita através de merges com commits de merge (comando `git merge --no-ff`)
-  * Remover o branch do feature
-* Se trabalhar em mais do que um feature ao mesmo tempo
-
-  * Abrir um branch separado para cada
+* Desenvolvedores abrem uma branch quando começam a trabalhar em um feature:
+  * Branchear de develop
+  * Se estiver trabalhando nisso por um tempo, manter atualizado **mergeando o develop para o branch do feature**
+  * Continuar trabalhando nesse branch até **terminar o feature**
+  * **Integrar com o develop**
+* Se trabalhar em mais do que um feature: abrir um branch separado para cada
+* Incompatível com integração contínua
 
 | ![](/images/feature_integration.png) |
 | :------------------------------------: |
 |         **Branch de feature**          |
 
-### Branch de Release
+### Branches de Release
 
-* Tem origem em qualquer commit no `develop` que contenha todos os features que deseja incluir no release
+* Branches de release são cortados de um commit específico no `develop`
 * Convenção de nomenclatura `release-v<n>.<m>`
-* Não permite a adição de novos features
-* Os novos features que continuam sendo adicionadas ao `develop` serão selecionados em uma versão futura
-* O trabalho no release se concentra exclusivamente em remover quaisquer defeitos que impeçam o release de estar pronto para produção
-* **Esses commits** devem ser 
-  * Criadas no branch de release
-  * **Mergeadas ao `develop`** 
-* Quando o release não estiver mais em produção:
-  * O branch de release deve ser removido
+* Apenas aceita commits de correções
+* Para estabilizar uma versão do produto pronto para produção
+* **Essas correções** devem ser **mergeadas ao `develop`** 
 * É muito comum negligenciar o mergeamento das correções para o `develop`
 
 | ![](/images/release-branch.png) |
 | :-------------------------------: |
 |       **Branch de release**       |
 
-* Algumas pessoas preferem a criação desses commits no branch principal ([como Google](/assets/2854146.pdf))
-  * Depois os cherry-pickar no branch de release
-* Desvantagens de escrever correções de release no branch principal
+* Algumas pessoas preferem a criação dessas correções no `develop` ([como Google](/assets/2854146.pdf))
+* Depois os cherry-pickar no branch de release
+* Desvantagens
   * Muitos times acham difícil fazer isso
-  * Frustrante consertar de uma maneira na linha principal e ter que retrabalhar no branch de release antes do release ocorrer
+  * Consertar de uma maneira na linha principal e ter que retrabalhar no branch de release
 
 | ![](/images/apply_to_mainline.png) |
 | :----------------------------------: |
-|   **Aplicar no branch principal**    |
+|   **Aplicar correções no branch principal**    |
 
-* O branch de release é essencial para projetos em que existem várias versões em produção, como software instalado nas dependências do cliente
+* Os branches de release são necessários para projetos em que existem várias versões em produção
 
 |         ![](/images/multi_release_branches.png)         |
 | :-------------------------------------------------------: |
 | **Branches de release com múltiplas versões em produção** |
 
-### Branch de Hotfix
+### Branches de Hotfix
 
 * Branch para capturar trabalho para corrigir um defeito de produção urgente
-  * Trabalhar neste bug será uma prioridade mais alta do que qualquer outro trabalho
-  *  Iniciar o branch no último release
-  * Aplicar quaisquer mudanças para o hotfix nesse branch
-  * Quando o **hotfix** for **concluído**
-    * Um novo release é feito
-    * O hotfix é **mergeado ao `develop`**
-    * O branch é removido
-* Trabalho de hotfix pode ser feito no branch de release (se transforma num branch de hotfix)
+* Quando o **hotfix** for **concluído**
+  * Um novo release é feito
+  * O hotfix deve ser **mergeado ao `develop`**
+* O trabalho de hotfix pode ser feito no branch de release
+  * Que se transforma num branch de hotfix
 
 |  ![](/images/hotfix-branch.png)  |
 | :--------------------------------: |
 | **Hotfix em um branch de release** |
 
-* É possível fazer os hotfixes no branch principal, os cherry-pickar para o branch de release
-* Uma regra especial para um time de Continuous Delivery é proibir qualquer commit no branch principal até que o hotfix seja concluído
+* É possível fazer os hotfixes no branch principal
+* Depois os cherry-pickar para o branch de release
+* Menos comum
+  * Hotfixes geralmente são feitos sob forte pressão de tempo 
 
 ### Branch de Produção
 
-* Quando estamos preparando um release de produção, abrimos um branch de release para estabilizar o produto
-* Assim que estiver pronto, **mergeamos para** um branch de produção
+* Quando estamos preparando um release de produção, abrimos um branch de release
+* Assim que estiver pronto, mergeamos para um branch de produção
 * No Git-flow, o branch de produção é denominado **`origin/master`**
 
 | ![](/images/production-branch.png) |
@@ -155,7 +129,6 @@ Criado por [Vincent Driessen em 2010](https://nvie.com/posts/a-successful-git-br
 
 ### Vantagens de Git-flow
 
-* Assegura uma configuração de branches limpa em qualquer momento do ciclo de vida do projeto
 * O histórico de commits do repositório é um **registro detalhado do que realmente aconteceu**
 * Os nomes dos branches seguem um padrão sistemático tornando mais fácil de compreender
 * É adequado para projetos em que existem várias versões em produção
@@ -164,9 +137,9 @@ Criado por [Vincent Driessen em 2010](https://nvie.com/posts/a-successful-git-br
 
 * O histórico de Git se torna ilegível, cheia de uma série confusa de commits de merge
 * O branch de produção é desnecessário
-* Desnecessariamente complicado 
+* Git-flow é desnecessariamente complicado 
   * Um [grande script auxiliar](https://github.com/nvie/gitflow) foi desenvolvido para ajudar a cumprir o procedimento. 
-  * Embora isso seja legal, não pode ser aplicado em uma GUI Git, apenas na linha de comando
+  * Não pode ser aplicado em uma GUI Git, apenas na linha de comando
 * Incompatível para projetos que usam integração continua
 
 ## OneFlow
