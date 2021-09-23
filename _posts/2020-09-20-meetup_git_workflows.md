@@ -20,16 +20,16 @@
 
 ### Vantagens de Branching
 
-* Permite que partes do software sejam desenvolvidas em paralelo.
-* Facilita a manter vários releases em produção.
-* Permite que os desenvolvedores isolem as mudanças sem desestabilizar a base de código, por exemplo, correções para bugs, novos features, integração de versões.
+* Permite que partes do software sejam desenvolvidas em paralelo
+* Facilita a manter vários releases em produção
+* Permite que os desenvolvedores isolem as mudanças sem desestabilizar a base de código, por exemplo, correções para bugs, novos features, integração de versões
 
 ### Desvantagens de Branching
 
-* Branchear é fácil, mergear é difícil.
-* **Conflito textual** × **conflito semântico**.
-* Não há como criar um algoritmo para resolver conflitos automaticamente.
-* Muitos times gastam uma quantidade excessiva de tempo lidando com seu emaranhado de branches.
+* Branchear é fácil, mergear é difícil
+* **Conflito textual** × **conflito semântico**
+* Não há como criar um algoritmo para resolver conflitos automaticamente
+* Muitos times gastam uma quantidade excessiva de tempo lidando com seu emaranhado de branches
 
 |               ![](/images/leroy-branch.jpg)                |
 | :----------------------------------------------------------: |
@@ -113,7 +113,6 @@ Criado por [Vincent Driessen em 2010](https://nvie.com/posts/a-successful-git-br
 * É possível fazer os hotfixes no branch principal
 * Depois os cherry-pickar para o branch de release
 * Menos comum
-  * Hotfixes geralmente são feitos sob forte pressão de tempo 
 
 ### Branch de Produção
 
@@ -152,16 +151,14 @@ Proposta no artigo [Git-flow considered harmful por Adam Ruka em 2015](https://w
 
 * O branch de produção é substituído por um esquema de tagueamento
 * OneFlow chama seu branch principal de `origin/master`
-* Os features são integrados diretamente no branch principal [squashados](https://softwareengineering.stackexchange.com/questions/263164/why-squash-git-commits-for-pull-requests) de forma a manter um **histórico linear**
-  * No OneFlow, a integração é feita por meio de rebase interativo (`git rebase --interactive`) e merge fast-forward (`git merge --ff-only`)
+* Os **features** são **integrados [squashados](https://softwareengineering.stackexchange.com/questions/263164/why-squash-git-commits-for-pull-requests) diretamente no `master`**  de forma a manter um **histórico linear**
 * Os releases e hotfixes são feitos de forma semelhante ao Git-flow
 
 ### Vantagens de Oneflow
 
 * O histórico do Git será mais limpo, menos confuso, mais legível
-  * O histórico de commits é a **história de como o projeto foi feito**
-  * O branch é passado a limpo antes de ser mergeado no branch principal 
-  * Conta a história da maneira que for mais compreensível para os leitores
+* O histórico de commits é a **história de como o projeto foi feito**
+* O **branch de feature** é **passado a limpo** e **integrado diretamente no `master`**
 
 ### Desvantagens de Oneflow
 
@@ -172,18 +169,12 @@ Proposta no artigo [Git-flow considered harmful por Adam Ruka em 2015](https://w
 
 Criado por [Scott Chacon em 2011](http://scottchacon.com/2011/08/31/github-flow.html).
 
-* O branch de produção é substituído por um esquema de tagueamento
-* GitHub flow chama seu branch principal `origin/master`
-* Premissas
-  * Única versão em produção
-  * Branch principal pronto para release
-  * Alta-frequência de integração (2 semanas no máximo)
-
-### Única Versão em Produção
-
+* Única versão em produção
+* **Branch principal pronto para release**
 * Branches de releases não são necessários
-* Os branches de hotfix não são necessários: issues de produção são corrigidos da mesma forma que features comuns
-* A estrutura de branching drasticamente simplificada para: um branch principal e branches de features
+* Branches de hotfix não são necessários
+* Branches de feature curtos (máximo 2 pessoa-semanas)
+* GitHub flow chama seu branch principal `origin/master`
 
 ### Branch Principal Pronto para Release
 
