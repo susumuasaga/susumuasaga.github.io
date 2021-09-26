@@ -10,9 +10,12 @@
 |         **Branch e head**         |
 
 * **Branching** é a duplicação de um objeto sob controle de versão (como um arquivo de código-fonte ou uma árvore de diretório)
-* Cada objeto pode, a partir daí, ser modificado separadamente em paralelo de forma que os objetos se tornam diferentes
 * Nesse contexto os objetos são chamados de **branches**
-* O branching também geralmente implica na capacidade de posteriormente mergear ou integrar as mudanças para o branch pai
+* Cada branch pode ser modificado separadamente em paralelo de forma que os branches se tornam diferentes
+* O branch de origem é chamada de *branch pai* ou *branch upstream*
+* Um branch sem pai é chamada de *tronco* ou *branch principal*
+* O branching implica na capacidade de posteriormente *mergear* ou *integrar* as mudanças para o branch pai
+* **Conflito textual** × **conflito semântico**
 
 | ![](/images/split-and-merge.png) |
 | :--------------------------------: |
@@ -22,12 +25,12 @@
 
 * Permite que partes do software sejam desenvolvidas em paralelo
 * Facilita a manter vários releases em produção
-* Permite que os desenvolvedores isolem as mudanças sem desestabilizar a base de código, por exemplo, correções para bugs, novos features, integração de versões
+* Permite que os desenvolvedores isolem as mudanças sem desestabilizar a base de código: novos features, correções para bugs, integração de versões
 
 ### Desvantagens de Branching
 
+* Menor interação entre os membros do time
 * Branchear é fácil, mergear é difícil
-* **Conflito textual** × **conflito semântico**
 * Não há como criar um algoritmo para resolver conflitos automaticamente
 * Muitos times gastam uma quantidade excessiva de tempo lidando com seu emaranhado de branches
 
@@ -46,22 +49,20 @@ Criado por [Vincent Driessen em 2010](https://nvie.com/posts/a-successful-git-br
 ### Branch Principal
 
 *  O **branch principal** é um branch especial no **repositório central** que consideramos ser o estado corrente do código do time
-   *  Para iniciar um novo trabalho: branchear do branch principal para um branch de trabalho
-   *  Sempre que quiser compartilhar seu trabalho com o resto do time: **mergear seu branch de trabalho para o branch principal** (**integração com o branch principal**)
 *  No Git-flow, o branch principal é denominado `origin/develop`
 
 | ![](/images/main-branch.png) |
 | :----------------------------: |
 |      **Branch principal**      |
 
-### Branches de Feature
+### Branching por Feature
 
-* Desenvolvedores abrem uma branch quando começam a trabalhar em um feature:
-  * Branchear de develop
-  * Se estiver trabalhando nisso por um tempo, manter atualizado **mergeando o develop para o branch do feature**
-  * Continuar trabalhando nesse branch até **terminar o feature**
-  * **Integrar com o develop**
-* Se trabalhar em mais do que um feature: abrir um branch separado para cada
+* **Um branch separado para cada feature**
+* Tem origem no `develop`
+* Pode ter qualquer nome que não comece com `release` ou `hotfix`
+* Se estiver trabalhando nisso por um tempo: **mergeie o develop para o branch do feature**
+* Continuar trabalhando nesse branch até **terminar o feature**
+* **Integrar com o `develop`**
 * Incompatível com integração contínua
 
 | ![](/images/feature_integration.png) |
@@ -70,22 +71,21 @@ Criado por [Vincent Driessen em 2010](https://nvie.com/posts/a-successful-git-br
 
 ### Branches de Release
 
+* Para estabilizar uma versão do produto pronto para produção
 * Branches de release são cortados de um commit específico no `develop`
 * Convenção de nomenclatura `release-v<n>.<m>`
 * Apenas aceita commits de correções
-* Para estabilizar uma versão do produto pronto para produção
-* **Essas correções** devem ser **mergeadas ao `develop`** 
-* É muito comum negligenciar o mergeamento das correções para o `develop`
+* **Essas correções** devem ser **integradas ao `develop`**
+* É muito comum negligenciar a integração das correções para o `develop`
 
 | ![](/images/release-branch.png) |
 | :-------------------------------: |
 |       **Branch de release**       |
 
 * Algumas pessoas preferem a criação dessas correções no `develop` ([como Google](/assets/2854146.pdf))
-* Depois os cherry-pickar no branch de release
-* Desvantagens
-  * Muitos times acham difícil fazer isso
-  * Consertar de uma maneira na linha principal e ter que retrabalhar no branch de release
+* Depois os **cherry-pickar** no branch de release
+* Muitos times acham difícil fazer isso
+* Pode ser necessário retrabalhar as correções cherry-pickadas no branch de release
 
 | ![](/images/apply_to_mainline.png) |
 | :----------------------------------: |
@@ -173,78 +173,39 @@ Criado por [Scott Chacon em 2011](http://scottchacon.com/2011/08/31/github-flow.
 * **Branch principal pronto para release**
 * Branches de releases não são necessários
 * Branches de hotfix não são necessários
-* Branches de feature curtos (máximo 2 pessoa-semanas)
+* **Branches de feature de vida curta (máximo 2 semanas)**
 * GitHub flow chama seu branch principal `origin/master`
 
 ### Branch Principal Pronto para Release
 
-*  **Branch principal saudável**
-   *  Um desenvolvedor deve ser capaz de iniciar um novo trabalho simplesmente brancheando do branch principal, não se enredar em defeitos que atrapalhem seu trabalho
-   *  Facilita o caminho para produção
-      *  Um novo release de produção pode ser criado a qualquer momento a partir do head do branch principal
-   *  Um **código de autoteste** com uma **suíte de commit** que rode em alguns minutos é fundamental
-      *  É um investimento significativo: para cada linha de código escrita, os programadores geralmente precisam de 3 a 5 linhas de código de teste
-      *  Possibilita fazer mudanças mais rapidamente, refatorar com segurança nosso código para o manter fácil de trabalhar, reduzir drasticamente o tempo de ciclo de um feature desejado para o código rodando em produção
+* Manter o  **branch `master`** suficientemente **saudável** para que o head do `master` possa sempre ser colocado diretamente em produção
+* **Delivery contínuo** × **Deploymento contínuo**   
 
-### Frequência de Integração
+|   ![](/images/mainline-release.png)    |
+| :--------------------------------------: |
+| **Branch principal pronto para release** |
 
-De acordo com [Martin Fowler](https://martinfowler.com/articles/branching-patterns.html#integration-frequency)
+### Branches de Feature de Vida Curta (máximo duas semanas)
 
-* A frequência com que fazemos a integração tem um efeito extraordinariamente poderoso sobre como uma equipe opera
-* A pesquisa do [Relatório State Of DevOps](https://martinfowler.com/bliki/StateOfDevOpsReport.html) indicou que as equipes de desenvolvimento de elite integram notavelmente com mais frequência do que as de baixo desempenho
-
-#### Integração de baixa-frequência
-
-* Nossas duas heroínas, Scarlett e Violet, começam brancheando o branch principal em seus branches, então fazendo alguns commits locais que não querem integrar ainda.
-* Enquanto trabalham, outra pessoa coloca um commit no branch principal.
-* Esta equipe trabalha mantendo um branch saudável, mergeando do branch principal após cada commit. Scarlett não tinha nada para mergear com seus dois primeiros commits já que o branch principal estava inalterada, mas agora precisa mergear M1.
-* Logo Violet precisa fazer a mesma coisa.
-* Scarlett faz mais alguns commits locais, então está pronta para fazer a integração ao branch principal. Este é um merge fácil para ela, já que margeou M1 antes.
-* Violet tem um exercício mais complicado. Quando ela faz a integração ao branch principal, ela agora precisa integrar S1..5 com V1..6.
-
-| ![](/images/low-freq-V-push.png) |
-| :--------------------------------: |
-| **Baixa frequência de integração** |
-
-#### Integração de alta-frequência
-
-* A primeira mudança é aparente com o primeiro commit de Violet, já que ela integra imediatamente. Uma vez que o branch principal não mudou, este é um merge sem conflitos.
-* O primeiro commit de Scarlett também tem integração com o branch principal, mas como Violet chegou lá primeiro, pode haver conflitos. Mas, como ela está mergeando apenas V1 com S1, o esforço é pequeno.
-* A próxima integração de Scarlett é um merge sem conflitos, o que significa que o próximo commit de Violet também exigirá um merge com os dois últimos commits de Scarlett. No entanto, ainda é um merge bem pequeno, uma de Violet e duas de Scarlett.
-* Quando o push externo para o branch principal aparece, ele é captado no ritmo usual das integrações de Scarlett e Violet.
-* As desenvolvedoras continuam com o trabalho restante, integrando a cada commit.
-
-|  ![](/images/high-freq-V6.png)  |
-| :-------------------------------: |
-| **Alta frequência de integração** |
-
-#### Comparando frequências de integração
-
-* A integração frequente aumenta a frequência de merges, mas reduz sua complexidade e risco
-* A integração frequente também alerta as equipes sobre conflitos com muito mais rapidez
-* Sistema de controle de versão é uma ferramenta de comunicação
-
-|      ![](/images/low-freq-conflict.png)       |
-| :---------------------------------------------: |
-| **Conflito com baixa frequência de integração** |
-
-|     ![](/images/high-freq-conflict.png)      |
-| :--------------------------------------------: |
-| **Conflito com alta frequência de integração** |
+* O estudo do [Relatório State Of DevOps](/assets/2016-State-of-DevOps-Report.pdf) indicou que as equipes de desenvolvimento de elite integram com mais frequência do que as de baixo desempenho
+* Aumenta a frequência de merges, mas reduz sua complexidade e risco
+* Alerta as equipes sobre conflitos com muito mais rapidez
+* Aumenta a interação entre os membros do time
 
 ### Integração Contínua
 
-* Os desenvolvedores fazem a integração do branch principal assim que têm um commit saudável que podem compartilhar
-* **Nunca deve ter mais do que um dia de trabalho não integrado em seu repositório local**
-* Acostumar com a ideia de alcançar pontos de integração frequentes com **features parcialmente construídos**
+* Os desenvolvedores fazem a integração do branch principal assim que têm um **commit saudável**
+* **Não há expectativa de** que o **feature** esteja **completo**
+* **O branch deve durar no máximo dois dias**
+* O time deve ficar adepta com as técnicas **branch por abstração** para mudanças mais longas e usar **feature flags** no desenvolvimento do dia a dia para permitir a proteção do escopo dos releases
 
 | ![](/images/continuous_integration.png) |
 | :---------------------------------------: |
 |     **Continuous Delivery em GitHub**     |
 
-#### Integração por Feature × Integração Contínua
+#### Branching por Feature × Integração Contínua
 
-#### Integração por Feature
+#### Branching por Feature
 
 * Todo o código em um feature pode ser avaliado quanto à qualidade como uma unidade ✔
 * O código do feature só é adicionado ao produto quando o feature estiver completo ✔
@@ -322,7 +283,6 @@ De acordo com [Martin Fowler](https://martinfowler.com/articles/branching-patter
 
 * Dependendo do tamanho do time e da frequência de commits, **branches de feature de curta duração** são usados para revisão de código e verificação de build (CI), mas não para a criação ou publicação de artefatos, para acontecer antes que os commits sejam integrados ao master para outros desenvolvedores os consumirem. Esses branches permitem que os desenvolvedores se envolvam em uma **revisão de código ágil e contínua** de contribuições antes que seu código seja integrado ao master. Equipes muito pequenas podem **cometer diretamente para o master**.
 * Dependendo da frequência de release pretendida, pode haver **branches de release** que são brancheados do master em uma base just-in-time, são estabilizados antes de um release (sem que isso seja uma atividade de equipe), e **esses branches são deletados** algum tempo após o release. Como alternativa, também pode não haver ramos de lançamento se a equipe usando **branch principal pronto para release** e escolhendo uma estratégia de “correção futura” para correções de bugs. O branch principal pronto para release também é para equipes de alto rendimento.
-* Os times devem se tornar adeptas da técnica de **branch por abstração** para mudanças mais longas e usar **feature flags** no desenvolvimento do dia a dia para permitir a proteção na ordem dos releases.
 * O [Google faz o desenvolvimento Trunk-Based](/assets/2854146.pdf) e tem 35.000 desenvolvedores em um único branch principal monorepo.
 * As pessoas que praticam o GitHub flow sentirão que isso é bastante semelhante.
 * As pessoas que praticam o Git-flow acharão isso **muito diferente**.
