@@ -13,7 +13,6 @@
 * Nesse contexto os objetos são chamados de **branches**
 * Cada branch pode ser modificado separadamente em paralelo de forma que os branches se tornam diferentes
 * O branch de origem é chamada de *branch pai* ou *branch upstream*
-* Um branch sem pai é chamada de *tronco* ou *branch principal*
 * O branching implica na capacidade de posteriormente *mergear* ou *integrar* as mudanças para o branch pai
 * **Conflito textual** × **conflito semântico**
 
@@ -24,7 +23,7 @@
 ### Vantagens de Branching
 
 * Permite que partes do software sejam desenvolvidas em paralelo
-* Facilita a manter vários releases em produção
+* Facilita a manter várias versões em produção
 * Permite que os desenvolvedores isolem as mudanças sem desestabilizar a base de código: novos features, correções para bugs, integração de versões
 
 ### Desvantagens de Branching
@@ -48,14 +47,14 @@ Criado por [Vincent Driessen em 2010](https://nvie.com/posts/a-successful-git-br
 
 ### Branch Principal
 
-*  O **branch principal** é um branch especial no **repositório central** que consideramos ser o estado corrente do código do time
-*  No Git-flow, o branch principal é denominado `origin/develop`
+*  O **branch principal** ou **tronco** é um branch especial no **repositório central** que consideramos ser o estado corrente do código do time
+*  No Git-flow, o branch principal é chamado `origin/develop`
 
 | ![](/images/main-branch.png) |
 | :----------------------------: |
 |      **Branch principal**      |
 
-### Branching por Feature
+### Feature Branching
 
 * **Um branch separado para cada feature**
 * Tem origem no `develop`
@@ -112,7 +111,6 @@ Criado por [Vincent Driessen em 2010](https://nvie.com/posts/a-successful-git-br
 
 * É possível fazer os hotfixes no branch principal
 * Depois os cherry-pickar para o branch de release
-* Menos comum
 
 ### Branch de Produção
 
@@ -137,9 +135,8 @@ Criado por [Vincent Driessen em 2010](https://nvie.com/posts/a-successful-git-br
 * O histórico de Git se torna ilegível, cheia de uma série confusa de commits de merge
 * O branch de produção é desnecessário
 * Git-flow é desnecessariamente complicado 
-  * Um [grande script auxiliar](https://github.com/nvie/gitflow) foi desenvolvido para ajudar a cumprir o procedimento. 
-  * Não pode ser aplicado em uma GUI Git, apenas na linha de comando
-* Incompatível para projetos que usam integração continua
+  * Um [grande script auxiliar](https://github.com/nvie/gitflow) foi desenvolvido para ajudar a cumprir o procedimento, que pode ser aplicado apenas na linha de comando
+* Incompatível com integração continua
 
 ## OneFlow
 
@@ -173,39 +170,49 @@ Criado por [Scott Chacon em 2011](http://scottchacon.com/2011/08/31/github-flow.
 * **Branch principal pronto para release**
 * Branches de releases não são necessários
 * Branches de hotfix não são necessários
-* **Branches de feature de vida curta (máximo 2 semanas)**
-* GitHub flow chama seu branch principal `origin/master`
+* **Branches de feature de curta duração**
+* GitHub flow chama o branch principal de `origin/master`
 
-### Branch Principal Pronto para Release
+### Branches de Feature de Curta Duração
 
-* Manter o  **branch `master`** suficientemente **saudável** para que o head do `master` possa sempre ser colocado diretamente em produção
-* **Delivery contínuo** × **Deploymento contínuo**   
-
-|   ![](/images/mainline-release.png)    |
-| :--------------------------------------: |
-| **Branch principal pronto para release** |
-
-### Branches de Feature de Vida Curta (máximo duas semanas)
-
+* O GitHub flow favorece branches de feature de duração entre  **dez minutos a duas semanas**
 * O estudo do [Relatório State Of DevOps](/assets/2016-State-of-DevOps-Report.pdf) indicou que as equipes de desenvolvimento de elite integram com mais frequência do que as de baixo desempenho
 * Aumenta a frequência de merges, mas reduz sua complexidade e risco
 * Alerta as equipes sobre conflitos com muito mais rapidez
 * Aumenta a interação entre os membros do time
 
+### Branch Principal Pronto para Release
+
+* Manter o  **branch `master`** suficientemente **saudável** para que o head do `master` possa sempre ser colocado diretamente em produção
+* Técnicas usadas para garantir um branch `master` saldável:
+  * **Código de autoteste**
+  * **Revisão pré-integração** 
+* Juntamente com a integração contínua como parte do delivery contínuo, um branch principal pronto para release é uma característica comum de times de elite
+* **Delivery contínuo** × **Deploymento contínuo**  
+* Se o time usa feature branching e a duração dos branches de feature é normalmente de um mês:
+  * Insistir em um branch principal pronto para release pode ser uma barreira para seu aprimoramento
+
+|   ![](/images/mainline-release.png)    |
+| :--------------------------------------: |
+| **Branch principal pronto para release** |
+
 ### Integração Contínua
 
-* Os desenvolvedores fazem a integração do branch principal assim que têm um **commit saudável**
+* **Integração contínua**:
+  * **O branches de feature duram no máximo um dia ou dois**
+  * **Branch principal pronto para release**
 * **Não há expectativa de** que o **feature** esteja **completo**
-* **O branch deve durar no máximo dois dias**
-* O time deve ficar adepta com as técnicas **branch por abstração** para mudanças mais longas e usar **feature flags** no desenvolvimento do dia a dia para permitir a proteção do escopo dos releases
+* O time deve ficar usar técnicas como:
+  * **Branch por abstração** para mudanças mais longas
+  * **Feature flags** no desenvolvimento do dia a dia
 
 | ![](/images/continuous_integration.png) |
 | :---------------------------------------: |
 |     **Continuous Delivery em GitHub**     |
 
-#### Branching por Feature × Integração Contínua
+#### Feature Branching × Integração Contínua
 
-#### Branching por Feature
+#### Feature Branching
 
 * Todo o código em um feature pode ser avaliado quanto à qualidade como uma unidade ✔
 * O código do feature só é adicionado ao produto quando o feature estiver completo ✔
@@ -217,8 +224,8 @@ Criado por [Scott Chacon em 2011](http://scottchacon.com/2011/08/31/github-flow.
 * Tempo reduzido para encontrar conflitos ✔
 * Merges menores ✔
 * Encoraja a refatoração ✔
-* Evidência científica de que contribui para um maior desempenho de entrega de software ✔
-* Requer compromisso com branches saudáveis (e, portanto, código autoteste) ❌
+* [Evidência científica](assets/2016-State-of-DevOps-Report.pdf) de que contribui para um maior desempenho de entrega de software ✔
+* Requer compromisso com branches saudáveis (e, portanto, código de autoteste) ❌
 
 ### Pull Request como Ferramenta de Conversação do Branch
 
