@@ -227,21 +227,22 @@ Criado por [Scott Chacon em 2011](http://scottchacon.com/2011/08/31/github-flow.
 * [Evidência científica](assets/2016-State-of-DevOps-Report.pdf) de que contribui para um maior desempenho de entrega de software ✔
 * Requer compromisso com branches saudáveis (e, portanto, código de autoteste) ❌
 
-### Pull Request como Ferramenta de Conversação do Branch
+### Pull Requests
 
-* No GitHub flow, o **pull request** é usado mais como como uma ferramenta de conversação do branch do que propriamente uma solicitação de integração
+* O modelo **pull request** (PR) introduzido pelo GitHub, em 2008, é o modelo de revisão de código dominante hoje
+* Google a pratica modelo semelhante desde 2005, conforme apresentação de Guido van Rossum do Mondrian
+* Abaixo podemos ver Josh copiando Brian para revisão e Brian chegando com alguns conselhos sobre uma das linhas de código.
 
 |    ![](/images/pull-request-1.png)    |
 | :-------------------------------------: |
 | **Início de discussão de pull request** |
 
+* Abaixo podemos ver Josh reconhecendo os comentários de Brian e pushando mais códigos para as resolver
+* Finalmente, podemos ver que o objetivo de Josh aqui foi pedir ajuda e não solicitar integração do branch
+
 |      ![](/images/pull-request-2.png)       |
 | :------------------------------------------: |
 | **Continuação de discussão em pull request** |
-
-| ![](/images/rebase_feature.png) |
-| :-------------------------------: |
-|     **Atualizando um branch**     |
 
 ### Revisão Pré-integração com Pull Request
 
