@@ -23,8 +23,8 @@
 ### Vantagens de Branching
 
 * Permite que partes do software sejam desenvolvidas em paralelo
+* Permite que os desenvolvedores isolem as mudanças numa base de código estável
 * Facilita a manter várias versões em produção
-* Permite que os desenvolvedores isolem as mudanças sem desestabilizar a base de código: novos features, correções para bugs, integração de versões
 
 ### Desvantagens de Branching
 
@@ -81,7 +81,7 @@ Criado por [Vincent Driessen em 2010](https://nvie.com/posts/a-successful-git-br
 | :-------------------------------: |
 |       **Branch de release**       |
 
-* Algumas pessoas preferem a criação dessas correções no `develop` ([como Google](/assets/2854146.pdf))
+* Algumas pessoas preferem a criação dessas correções no `develop` ([como Google](/assets/why_google_store_billions_of_locs_in_a_single_repository.pdf))
 * Depois os **cherry-pickar** no branch de release
 * Muitos times acham difícil fazer isso
 * Pode ser necessário retrabalhar as correções cherry-pickadas no branch de release
@@ -127,7 +127,6 @@ Criado por [Vincent Driessen em 2010](https://nvie.com/posts/a-successful-git-br
 ### Vantagens de Git-flow
 
 * O histórico de commits do repositório é um **registro detalhado do que realmente aconteceu**
-* Os nomes dos branches seguem um padrão sistemático tornando mais fácil de compreender
 * É adequado para projetos em que existem várias versões em produção
 
 ### Desvantagens de Git-flow
@@ -148,7 +147,7 @@ Proposta no artigo [Git-flow considered harmful por Adam Ruka em 2015](https://w
 
 * O branch de produção é substituído por um esquema de tagueamento
 * OneFlow chama seu branch principal de `origin/master`
-* Os **features** são **integrados [squashados](https://softwareengineering.stackexchange.com/questions/263164/why-squash-git-commits-for-pull-requests) diretamente no `master`**  de forma a manter um **histórico linear**
+* Os **features** são **integrados squashados (rebase) diretamente no `master`**  de forma a manter um **histórico linear**
 * Os releases e hotfixes são feitos de forma semelhante ao Git-flow
 
 ### Vantagens de Oneflow
@@ -169,17 +168,10 @@ Criado por [Scott Chacon em 2011](http://scottchacon.com/2011/08/31/github-flow.
 * Única versão em produção
 * **Branch principal pronto para release**
 * Branches de releases não são necessários
-* Branches de hotfix não são necessários
-* **Branches de feature de curta duração**
+* Problemas de produção são corrigidos da mesma maneira que features regulares, assim não há necessidade de branches de hotfix
+* **Feature branching de curta duração**
+* **Revisão de código no modo Pull-Request**
 * GitHub flow chama o branch principal de `origin/master`
-
-### Branches de Feature de Curta Duração
-
-* O GitHub flow favorece branches de feature de duração entre  **dez minutos a duas semanas**
-* O estudo do [Relatório State Of DevOps](/assets/2016-State-of-DevOps-Report.pdf) indicou que as equipes de desenvolvimento de elite integram com mais frequência do que as de baixo desempenho
-* Aumenta a frequência de merges, mas reduz sua complexidade e risco
-* Alerta as equipes sobre conflitos com muito mais rapidez
-* Aumenta a interação entre os membros do time
 
 ### Branch Principal Pronto para Release
 
@@ -189,6 +181,7 @@ Criado por [Scott Chacon em 2011](http://scottchacon.com/2011/08/31/github-flow.
   * **Revisão pré-integração** 
 * Juntamente com a integração contínua como parte do delivery contínuo, um branch principal pronto para release é uma característica comum de times de elite
 * **Delivery contínuo** × **Deploymento contínuo**  
+* O tempo gasto para desenvolver código de autoteste é maior do que o tempo gasto para desenvolver o código da aplicação
 * Se o time usa feature branching e a duração dos branches de feature é normalmente de um mês:
   * Insistir em um branch principal pronto para release pode ser uma barreira para seu aprimoramento
 
@@ -196,21 +189,62 @@ Criado por [Scott Chacon em 2011](http://scottchacon.com/2011/08/31/github-flow.
 | :--------------------------------------: |
 | **Branch principal pronto para release** |
 
+### Feature Branching de Curta Duração
+
+* Os branches de feature são pushados regularmente para o repositório `origin`, para apoiar a visibilidade
+* Não há integração com o `master`até o feature seja concluído
+* O GitHub flow favorece branches de feature de duração entre  **dez minutos a duas semanas**
+* O estudo do [Relatório State Of DevOps](/assets/2016-State-of-DevOps-Report.pdf) indicou que as equipes de desenvolvimento de elite integram com mais frequência do que as de baixo desempenho
+  * Aumenta a frequência de merges, mas reduz sua complexidade e risco
+  * Alerta as equipes sobre conflitos com muito mais rapidez
+  * Aumenta a interação entre os membros do time
+
+### Revisão de Código no Modo Pull Request
+
+* O modelo **pull request** (PR) introduzido pelo GitHub, em 2008, é o modelo de revisão de código dominante hoje
+* Google pratica modelo semelhante desde 2005, conforme [apresentação de Guido van Rossum do Mondrian](https://youtu.be/sMql3Di4Kgc)
+
+|    ![](/images/pull-request-1.png)    |
+| :-------------------------------------: |
+| **Josh pede ajuda para Brian<br />Brian responde com alguns conselhos** |
+
+
+|      ![](/images/pull-request-2.png)       |
+| :------------------------------------------: |
+| **Josh reconhece os comentários de Brian<br />Pusha mais códigos para os atender** |
+
+* No GitHub flow, todo o código é revisado antes de ser integrado
+* O tempo de revisão de código deve ser aproximadamente metade do tempo de codificação
+* Alguns desenvolvedores squasham (rebase) as mudanças em um único commit antes de iniciar a revisão do código
+* Difícil de ser usado com integração contínua, mas é possível ([Google usa esta abordagem](/assets/why_google_store_billions_of_locs_in_a_single_repository.pdf))
+
+## Desenvolvimento Baseado no Tronco
+
+Paul Hammand escreveu [um site detalhado](https://trunkbaseddevelopment.com/) para explicar essa abordagem.
+
+* O **Desenvolvimento Baseado no Tronco** se concentra em fazer todo trabalho no branch principal (chamado de “tronco”), evitando assim qualquer tipo de branch de longa duração
+
+|                 ![](/images/trunk1b.png)                 |
+| :------------------------------------------------------: |
+| **Desenvolvimento baseado no tronco para times menores** |
+
+|        ![](/images/trunk1c.png)         |
+| :---------------------------------------: |
+| **Desenvolvimento Trunk-Based em escala** |
+
+* Times podem usar branch de release (chamado de “branch para release”) ou branch principal pronto para release (“release a partir do tronco”)
+* [Google pratica Desenvolvimento Baseado no Tronco](/assets/why_google_store_billions_of_locs_in_a_single_repository.pdf), tem **25+ mil desenvolvedores** trabalhando em um único tronco **monorepo** de **2 bilhões de linhas de código**
+
 ### Integração Contínua
 
-* **Integração contínua**:
-  * **O branches de feature duram no máximo um dia ou dois**
-  * **Branch principal pronto para release**
+* Os desenvolvedores fazem integração ao branch principal assim que têm um **commit saudável** quw podem compartilhar
 * **Não há expectativa de** que o **feature** esteja **completo**
-* O time deve ficar usar técnicas como:
+* **Nunca** deve ter **mais de um dia de trabalho não integrado** em seu repositório local
+* O time deve usar técnicas para ocultar features como:
   * **Branch por abstração** para mudanças mais longas
   * **Feature flags** no desenvolvimento do dia a dia
 
-| ![](/images/continuous_integration.png) |
-| :---------------------------------------: |
-|     **Continuous Delivery em GitHub**     |
-
-#### Feature Branching × Integração Contínua
+### Feature Branching × Integração Contínua
 
 #### Feature Branching
 
@@ -227,70 +261,9 @@ Criado por [Scott Chacon em 2011](http://scottchacon.com/2011/08/31/github-flow.
 * [Evidência científica](assets/2016-State-of-DevOps-Report.pdf) de que contribui para um maior desempenho de entrega de software ✔
 * Requer compromisso com branches saudáveis (e, portanto, código de autoteste) ❌
 
-### Pull Requests
-
-* O modelo **pull request** (PR) introduzido pelo GitHub, em 2008, é o modelo de revisão de código dominante hoje
-* Google a pratica modelo semelhante desde 2005, conforme apresentação de Guido van Rossum do Mondrian
-* Abaixo podemos ver Josh copiando Brian para revisão e Brian chegando com alguns conselhos sobre uma das linhas de código.
-
-|    ![](/images/pull-request-1.png)    |
-| :-------------------------------------: |
-| **Início de discussão de pull request** |
-
-* Abaixo podemos ver Josh reconhecendo os comentários de Brian e pushando mais códigos para as resolver
-* Finalmente, podemos ver que o objetivo de Josh aqui foi pedir ajuda e não solicitar integração do branch
-
-|      ![](/images/pull-request-2.png)       |
-| :------------------------------------------: |
-| **Continuação de discussão em pull request** |
-
-### Revisão Pré-integração com Pull Request
-
-* No GitHub flow, cada commit para o branch principal é revisado por pares, no pull-request, antes de o commit ser aceito
-* Antes de submeter, a branch deve:
-  * estar saldável
-  * ser passada a limpo 
-  * ter conflitos existentes com o branch principal resolvidos
-* Difícil de ser usado com integração contínua, mas é possível ([Google usa esta abordagem](/assets/2854146.pdf))
-
-| ![](/images/pull-request-3.png) |
-| :-------------------------------: |
-|   **Aprovação de pull request**   |
-
-### Vantagens de GitHub Flow
-
-* Amigável à integração contínua
-* Alternativa mais simples para Git-flow
-* Ideal quando precisa manter uma versão única em produção
-
-### Desvantagens de GitHub Flow
-
-* Requer compromisso com branches saudáveis
-* Não recomendado quando várias versões em produção são necessárias
-
-## Desenvolvimento Trunk-Based
-
-* **Branch principal**:
-  * Usuários de Subversion o chamam de “trunk”
-  * Usuários de Git o chamam de “master”
-
-|             ![](/images/trunk1b.png)             |
-| :------------------------------------------------: |
-| **Desenvolvimento Trunk-Based para times menores** |
-
-|        ![](/images/trunk1c.png)         |
-| :---------------------------------------: |
-| **Desenvolvimento Trunk-Based em escala** |
-
-**Regras**
-
-* Você deve fazer o Desenvolvimento Trunk-Based em vez de Git-Flow e outros modelos de branching que apresentam várias ramificações de longa duração.
-* Você pode fazer um commit / push direto para o master (em times pequenos) ou um workflow Pull-Request, desde que esses branches de feature tenham vida curta e sejam o produto de uma única pessoa.
-
-**Ressalvas**
-
-* Dependendo do tamanho do time e da frequência de commits, **branches de feature de curta duração** são usados para revisão de código e verificação de build (CI), mas não para a criação ou publicação de artefatos, para acontecer antes que os commits sejam integrados ao master para outros desenvolvedores os consumirem. Esses branches permitem que os desenvolvedores se envolvam em uma **revisão de código ágil e contínua** de contribuições antes que seu código seja integrado ao master. Equipes muito pequenas podem **cometer diretamente para o master**.
-* Dependendo da frequência de release pretendida, pode haver **branches de release** que são brancheados do master em uma base just-in-time, são estabilizados antes de um release (sem que isso seja uma atividade de equipe), e **esses branches são deletados** algum tempo após o release. Como alternativa, também pode não haver ramos de lançamento se a equipe usando **branch principal pronto para release** e escolhendo uma estratégia de “correção futura” para correções de bugs. O branch principal pronto para release também é para equipes de alto rendimento.
-* O [Google faz o desenvolvimento Trunk-Based](/assets/2854146.pdf) e tem 35.000 desenvolvedores em um único branch principal monorepo.
-* As pessoas que praticam o GitHub flow sentirão que isso é bastante semelhante.
-* As pessoas que praticam o Git-flow acharão isso **muito diferente**.
+## Conclusão
+Conforme [Martin Fowler](https://martinfowler.com/articles/branching-patterns.html#FinalThoughtsAndRecommendations):
+* Sempre que estiver considerando usar um branch, descubra como fará o merge
+* Certifique-se de entender as alternativas ao feature branching, são geralmente superiores
+* Tente duplicar sua frequência de integração
+* Preste atenção ao que está dificultando o merge
