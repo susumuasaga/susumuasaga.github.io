@@ -59,10 +59,9 @@ Criado por [Vincent Driessen em 2010](https://nvie.com/posts/a-successful-git-br
 * **Um branch separado para cada feature**
 * Tem origem no `develop`
 * Pode ter qualquer nome que não comece com `release` ou `hotfix`
-* Se estiver trabalhando nisso por um tempo: **mergeie o develop para o branch do feature**
+* Se estiver trabalhando nisso por um tempo: **mergeie o `develop` para o branch do feature**
 * Continuar trabalhando nesse branch até **terminar o feature**
 * **Integrar com o `develop`**
-* Incompatível com integração contínua
 
 | ![](/images/feature_integration.png) |
 | :------------------------------------: |
@@ -70,21 +69,26 @@ Criado por [Vincent Driessen em 2010](https://nvie.com/posts/a-successful-git-br
 
 ### Branches de Release
 
-* Para estabilizar uma versão do produto pronto para produção
 * Branches de release são cortados de um commit específico no `develop`
 * Convenção de nomenclatura `release-v<n>.<m>`
-* Apenas aceita commits de correções
-* **Essas correções** devem ser **integradas ao `develop`**
-* É muito comum negligenciar a integração das correções para o `develop`
+* Apenas aceita commits de correções, nunca commits de features
+* **Essas correções** devem ser **mergeadas ao `develop`**
+* Se não há mais falhas para lidar: 
+  * O branch está pronto para release em produção
 
 | ![](/images/release-branch.png) |
 | :-------------------------------: |
 |       **Branch de release**       |
 
-* Algumas pessoas preferem a criação dessas correções no `develop` ([como Google](/assets/why_google_store_billions_of_locs_in_a_single_repository.pdf))
-* Depois os **cherry-pickar** no branch de release
-* Muitos times acham difícil fazer isso
-* Pode ser necessário retrabalhar as correções cherry-pickadas no branch de release
+* Conforme mais commits modificam o mainline: 
+  * Fica cada vez mais difícil mergear o branch de release no branch principal
+* É muito comum negligenciar a integração das correções
+* Algumas pessoas preferem a criação dessas correções no `develop`, ([como Google](/assets/why_google_store_billions_of_locs_in_a_single_repository.pdf))
+* Quando estiverem funcionando: 
+  * **Cherry-pická-los** no branch de release
+* Desvantagens:
+  * Muitos times acham difícil fazer isso
+  * Pode ser necessário retrabalhar as correções no branch de release
 
 | ![](/images/apply_to_mainline.png) |
 | :----------------------------------: |
@@ -99,30 +103,28 @@ Criado por [Vincent Driessen em 2010](https://nvie.com/posts/a-successful-git-br
 ### Branches de Hotfix
 
 * Branch para capturar trabalho para corrigir um defeito de produção urgente
-* Quando o **hotfix** for **concluído**
+* Abrir o branch na última versão de release
+* Aplicar quaisquer mudanças para o hotfix nessa branch
+* Quando o **hotfix** for **concluído**:
   * Um novo release é feito
   * O hotfix deve ser **mergeado ao `develop`**
-* O trabalho de hotfix pode ser feito no branch de release
-  * Que se transforma num branch de hotfix
+* O trabalho de hotfix pode ser feito no branch de release, transformando-o num branch de hotfix
+* É possível fazer os hotfixes no branch principal, cherry-pická-los para o branch de release
 
 |  ![](/images/hotfix-branch.png)  |
 | :--------------------------------: |
 | **Hotfix em um branch de release** |
-
-* É possível fazer os hotfixes no branch principal
-* Depois os cherry-pickar para o branch de release
 
 ### Branch de Produção
 
 * Quando estamos preparando um release de produção, abrimos um branch de release
 * Assim que estiver pronto, mergeamos para um branch de produção
 * No Git-flow, o branch de produção é denominado **`origin/master`**
+* Uma alternativa ao uso de branch de produção é aplicar um **esquema de tagueamento**
 
 | ![](/images/production-branch.png) |
 | :----------------------------------: |
 |        **Branch de produção**        |
-
-* Uma alternativa ao uso de branch de produção é aplicar um **esquema de tagueamento**
 
 ### Vantagens de Git-flow
 
@@ -134,8 +136,7 @@ Criado por [Vincent Driessen em 2010](https://nvie.com/posts/a-successful-git-br
 * O histórico de Git se torna ilegível, cheia de uma série confusa de commits de merge
 * O branch de produção é desnecessário
 * Git-flow é desnecessariamente complicado 
-  * Um [grande script auxiliar](https://github.com/nvie/gitflow) foi desenvolvido para ajudar a cumprir o procedimento, que pode ser aplicado apenas na linha de comando
-* Incompatível com integração continua
+* Favorece branches de feature de longa duração
 
 ## OneFlow
 
@@ -145,51 +146,56 @@ Proposta no artigo [Git-flow considered harmful por Adam Ruka em 2015](https://w
 | :----------------------------------: |
 |        **Modelo de OneFlow**         |
 
-* O branch de produção é substituído por um esquema de tagueamento
 * OneFlow chama seu branch principal de `origin/master`
-* Os **features** são **integrados squashados (rebase) diretamente no `master`**  de forma a manter um **histórico linear**
+* O branch de produção é substituído por um esquema de tagueamento
+* Todos os outros branches (feature, release, hotfix) são temporários, usados apenas como uma conveniência para compartilhar código com outros desenvolvedores e como uma medida de backup
+* Os **features** são **integrados diretamente** (rebase) no `master`,  de forma a manter um **histórico linear**
 * Os releases e hotfixes são feitos de forma semelhante ao Git-flow
 
 ### Vantagens de Oneflow
 
 * O histórico do Git será mais limpo, menos confuso, mais legível
 * O histórico de commits é a **história de como o projeto foi feito**
-* O **branch de feature** é **passado a limpo** e **integrado diretamente no `master`**
+* O histórico do Git é **passado a limpo**
 
 ### Desvantagens de Oneflow
 
-* Usa comandos avançados para rescrita do histórico
-* Inadequado para projetos que usam integração continua
+* Alguns times têm dificuldade de usar comandos para rescrita do histórico
+* Favorece branches de feature de longa duração
 
 ## GitHub Flow
 
 Criado por [Scott Chacon em 2011](http://scottchacon.com/2011/08/31/github-flow.html).
 
+* GitHub flow chama o branch principal de `origin/master`
 * Única versão em produção
 * **Branch principal pronto para release**
 * Branches de releases não são necessários
 * Problemas de produção são corrigidos da mesma maneira que features regulares, assim não há necessidade de branches de hotfix
-* **Feature branching de curta duração**
-* **Revisão de código no modo Pull-Request**
-* GitHub flow chama o branch principal de `origin/master`
+* **Feature branching de duração limitada**
+* **Revisão pré-integração no modo Pull-Request**
 
 ### Branch Principal Pronto para Release
 
 * Manter o  **branch `master`** suficientemente **saudável** para que o head do `master` possa sempre ser colocado diretamente em produção
-* Técnicas usadas para garantir um branch `master` saldável:
-  * **Código de autoteste**
-  * **Revisão pré-integração** 
-* Juntamente com a integração contínua como parte do delivery contínuo, um branch principal pronto para release é uma característica comum de times de elite
-* **Delivery contínuo** × **Deploymento contínuo**  
-* O tempo gasto para desenvolver código de autoteste é maior do que o tempo gasto para desenvolver o código da aplicação
-* Se o time usa feature branching e a duração dos branches de feature é normalmente de um mês:
-  * Insistir em um branch principal pronto para release pode ser uma barreira para seu aprimoramento
 
 |   ![](/images/mainline-release.png)    |
 | :--------------------------------------: |
 | **Branch principal pronto para release** |
 
-### Feature Branching de Curta Duração
+* **Delivery contínuo** × **Deploymento contínuo**  
+* Juntamente com a integração contínua como parte do delivery contínuo, [um branch principal pronto para release é uma característica de times de elite](/assets/2016-State-of-DevOps-Report.pdf)
+* Se o time usa branches de feature de longa duração:
+  * O branch principal pronto para o release pode ser uma barreira para sua melhoria
+* Nesse caso, é melhor:
+  * Desistir do `master` pronto para release
+  * **Encorajar integração mais frequente**
+  * Usar um branch de release para estabilizar o `master` para produção  
+* Vantagens:
+  * Simplicidade
+  * Mantém a prontidão da produção no topo das mentes dos desenvolvedores, garantindo que os problemas não entrem gradualmente no sistema, seja como bugs ou como problemas de processo que retardam o ciclo do produto
+
+### Feature Branching de Duração Limitada
 
 * Os branches de feature são pushados regularmente para o repositório `origin`, para apoiar a visibilidade
 * Não há integração com o `master`até o feature seja concluído
@@ -237,12 +243,14 @@ Paul Hammand escreveu [um site detalhado](https://trunkbaseddevelopment.com/) pa
 
 ### Integração Contínua
 
-* Os desenvolvedores fazem integração ao branch principal assim que têm um **commit saudável** quw podem compartilhar
-* **Não há expectativa de** que o **feature** esteja **completo**
+* Os desenvolvedores fazem **integração ao branch principal** assim que têm um **commit saudável** que podem compartilhar
 * **Nunca** deve ter **mais de um dia de trabalho não integrado** em seu repositório local
-* O time deve usar técnicas para ocultar features como:
+* **Não há necessidade de** que o **feature** esteja **completo**
+* Necessidade de **código de autoteste**
+* O time deve conhecer técnicas para ocultar features parciais como:
   * **Branch por abstração** para mudanças mais longas
   * **Feature flags** no desenvolvimento do dia a dia
+* Pode integrar **diretamente no `master`** ou usar **branches de feature de curta duração**
 
 ### Feature Branching × Integração Contínua
 
