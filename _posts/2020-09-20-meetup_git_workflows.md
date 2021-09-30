@@ -48,7 +48,7 @@ Criado por [Vincent Driessen em 2010](https://nvie.com/posts/a-successful-git-br
 
 ### Branch Principal ou Tronco
 
-*  No Git-flow, o branch principal é chamado `origin/develop`
+*  No Git-flow, o branch principal é chamado `develop`
 
 ### Feature Branching
 
@@ -104,8 +104,6 @@ Criado por [Vincent Driessen em 2010](https://nvie.com/posts/a-successful-git-br
   * O hotfix deve ser **mergeado ao `develop`**
 * Se houver um branch de release aberto para a próxima versão:
   * O hotfix precisará ir para lá também
-* Se o tempo entre releases for longo:
-  * Será mais embaraçoso fazer o merge
 
 | ![](/images/hotfix-branch.png) |
 | :----------------------------: |
@@ -122,8 +120,11 @@ Criado por [Vincent Driessen em 2010](https://nvie.com/posts/a-successful-git-br
 
 ### Branch de Produção
 
-* Branch cujo head marca a última versão entregue para produção
-* No Git-flow, o branch de produção é chamado de **`origin/master`**
+* Branch que rastreia as versões entregues para produção
+* Para preparar um release para produção:
+  * Abrir um branch de release para estabilizar o produto  
+  * Quando estiver pronta: copiá-lo para um branch de produção de longa duração
+* No Git-flow, o branch de produção é chamado de **`master`**
 * Uma alternativa ao uso de branch de produção é aplicar um **esquema de tagueamento**
 
 | ![](/images/production-branch.png) |
@@ -153,7 +154,7 @@ Proposta no artigo [Git-flow considered harmful por Adam Ruka em 2015](https://w
 | :----------------------------------: |
 |        **Modelo de OneFlow**         |
 
-* OneFlow chama seu branch principal de `origin/master`
+* OneFlow chama seu branch principal de `master`
 * O branch de produção é substituído por um esquema de tagueamento
 * Todos os outros branches (feature, release, hotfix) são temporários, usados apenas como uma conveniência para compartilhar código com outros desenvolvedores e como uma medida de backup
 * Os **features** são **integrados diretamente** (rebase) no `master`,  de forma a manter um **histórico linear**
@@ -177,7 +178,7 @@ Proposta no artigo [Git-flow considered harmful por Adam Ruka em 2015](https://w
 
 Criado por [Scott Chacon em 2011](http://scottchacon.com/2011/08/31/github-flow.html).
 
-* GitHub flow chama o branch principal de `origin/master`
+* GitHub flow chama o branch principal de `master`
 * Única versão em produção
 * **Branch principal pronto para release**
 * Branches de releases não são necessários
@@ -221,8 +222,11 @@ Criado por [Scott Chacon em 2011](http://scottchacon.com/2011/08/31/github-flow.
 
 ### Revisão Pré-integração no Modo Pull Request
 
-* O modelo **pull request** (PR) introduzido pelo GitHub, em 2008, é o modelo de revisão de código dominante hoje
-* Google pratica modelo semelhante desde 2005, conforme [apresentação de Guido van Rossum do Mondrian](https://youtu.be/sMql3Di4Kgc)
+* O modelo **pull request** (PR) foi introduzido pelo GitHub, em 2008
+* [Google pratica modelo semelhante](https://youtu.be/sMql3Di4Kgc) desde 2005
+* No GitHub flow, todo o código é revisado antes de ser integrado
+* O tempo de revisão de código deve ser aproximadamente metade do tempo de codificação
+* Alguns desenvolvedores squasham (rebase) as mudanças em um único commit antes de iniciar um pull request
 
 |    ![](/images/pull-request-1.png)    |
 | :-------------------------------------: |
@@ -233,15 +237,20 @@ Criado por [Scott Chacon em 2011](http://scottchacon.com/2011/08/31/github-flow.
 | :------------------------------------------: |
 | **Josh reconhece os comentários de Brian<br />Pusha mais códigos para os atender** |
 
-* No GitHub flow, todo o código é revisado antes de ser integrado
-* O tempo de revisão de código deve ser aproximadamente metade do tempo de codificação
-* Alguns desenvolvedores squasham (rebase) as mudanças em um único commit antes de iniciar a revisão do código
-
 ## Desenvolvimento Baseado no Tronco
 
 Paul Hammand escreveu [um site detalhado](https://trunkbaseddevelopment.com/) para explicar essa abordagem.
 
 * O **Desenvolvimento Baseado no Tronco** se concentra em fazer todo trabalho no branch principal (chamado de “tronco”), evitando assim qualquer tipo de branch de longa duração
+* **Integração contínua**
+* Times podem usar:
+  * Branch de release (“branch para release”)
+  * Branch principal pronto para release (“release a partir do tronco”)
+* [Google pratica Desenvolvimento Baseado no Tronco](/assets/why_google_store_billions_of_locs_in_a_single_repository.pdf): 
+  * **25+ mil desenvolvedores**
+  * **2+ bilhões de linhas de código**
+  * Tronco **monorepo** único
+  * **Checkout esparso**
 
 |                 ![](/images/trunk1b.png)                 |
 | :------------------------------------------------------: |
@@ -249,14 +258,7 @@ Paul Hammand escreveu [um site detalhado](https://trunkbaseddevelopment.com/) pa
 
 |        ![](/images/trunk1c.png)         |
 | :---------------------------------------: |
-| **Desenvolvimento Baseado no Tronco em escala** |
-
-* Times podem usar branch de release (chamado de “branch para release”) ou branch principal pronto para release (“release a partir do tronco”)
-* [Google pratica Desenvolvimento Baseado no Tronco em escala](/assets/why_google_store_billions_of_locs_in_a_single_repository.pdf): 
-  * **25+ mil desenvolvedores**
-  * **2+ bilhões de linhas de código**
-  * Tronco **monorepo** único
-  * **Checkout esparso**
+| **Desenvolvimento Baseado no Tronco para times maiores** |
 
 ### Integração Contínua
 
@@ -269,16 +271,16 @@ Paul Hammand escreveu [um site detalhado](https://trunkbaseddevelopment.com/) pa
 * Necessário ter **código de autoteste**
 * Pode integrar **diretamente no `master`** ou usar **branches de feature de curta duração**
 
-### Feature Branching × Integração Contínua
+#### Feature Branching × Integração Contínua
 
 Conforme [Martin Fowler](https://martinfowler.com/articles/branching-patterns.html#ComparingFeatureBranchingAndContinuousIntegration):
 
 | **Feature Branching**                                        | **Integração Contínua**                                      |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| ❌ Merges menos frequentes<br /> ✔ Todo o código em um feature pode ser avaliado quanto à qualidade como uma unidade<br /> ✔ O código do feature só é adicionado ao produto quando o feature estiver completo<br /> | ✔ Merges menores<br /> ✔ Tempo reduzido para encontrar conflitos<br /> ✔ Encoraja a refatoração<br /> ✔ Apoia integração em período menor do que o tamanho do feature<br /> ❌ Requer compromisso com branches saudáveis (e, portanto, código de autoteste)<br /> ✔[Evidência científica](assets/2016-State-of-DevOps-Report.pdf) de que contribui para um maior desempenho de entrega de software |
+| ❌ Merges menos frequentes<br /> ✔ Todo o código em um feature pode ser avaliado quanto à qualidade como uma unidade<br /> ✔ O código do feature só é adicionado ao produto quando o feature estiver completo<br /> | ✔ Merges menores<br /> ✔ Tempo reduzido para encontrar conflitos<br /> ✔ Encoraja a refatoração<br /> ✔ Apoia integração em período menor do que o tamanho do feature<br /> ❌ Requer compromisso com branches saudáveis (e, portanto, código de autoteste)<br /> ✔ [Evidência científica](/assets/2016-State-of-DevOps-Report.pdf) de que contribui para um maior desempenho de entrega de software |
 
 ## Recomendações
 * Sempre que estiver considerando usar um branch, descubra como fará o merge
-* Certifique-se de entender as alternativas ao feature branching, são geralmente superiores
+* Certifique-se de entender as alternativas ao Git-flow, como o GitHub flow e o Desenvolvimento Baseado no Tronco, são geralmente superiores
 * Tente duplicar sua frequência de integração
 * Preste atenção ao que está dificultando o merge
