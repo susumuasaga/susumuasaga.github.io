@@ -5,13 +5,11 @@
 
 ## Branching
 
-* Uma **branch** é uma árvore de diretório sob controle de versão, constituida por uma série de mudanças chamadas de **commits**
-
 | ![](/images/series-commits.png) |
 | :-------------------------------: |
 |         **Branch e head**         |
 
-* **Branching** é a duplicação de uma árvore de diretório sob controle de versão
+* **Branching** é a duplicação de um branch
 * Cada branch pode ser modificado separadamente em paralelo de forma que os branches se tornam diferentes
 * O branch de origem é chamada de *branch pai* ou *branch upstream*
 * O branching implica na capacidade de posteriormente *mergear* ou *integrar* as mudanças para o branch pai
@@ -48,9 +46,8 @@ Criado por [Vincent Driessen em 2010](https://nvie.com/posts/a-successful-git-br
 | :-----------------------------: |
 |     **Modelo de Git-flow**      |
 
-### Branch Principal
+### Branch Principal ou Tronco
 
-*  O **branch principal** ou **tronco** é um branch especial no **repositório central** que consideramos ser o estado corrente do código do time
 *  No Git-flow, o branch principal é chamado `origin/develop`
 
 ### Feature Branching
@@ -105,9 +102,21 @@ Criado por [Vincent Driessen em 2010](https://nvie.com/posts/a-successful-git-br
 * Abrir o branch na última versão de release
 * Quando o **hotfix** for **concluído**:
   * O hotfix deve ser **mergeado ao `develop`**
+* Se houver um branch de release aberto para a próxima versão:
+  * O hotfix precisará ir para lá também
+* Se o tempo entre releases for longo:
+  * Será mais embaraçoso fazer o merge
+
+| ![](/images/hotfix-branch.png) |
+| :----------------------------: |
+|      **Branch de hotfix**      |
+
+* Se o time estiver usando branches de release:
+  * O trabalho de hotfix pode ser feito no branch de release
+
 * É possível fazer os hotfixes no branch principal, cherry-pická-los para o branch de release
 
-|  ![](/images/hotfix-branch.png)  |
+|  ![](/images/hotfix-rb.png)  |
 | :--------------------------------: |
 | **Hotfix em um branch de release** |
 
