@@ -14,6 +14,8 @@
 * O branch de origem é chamada de *branch pai* ou *branch upstream*
 * O branching implica na capacidade de posteriormente *mergear* ou *integrar* as mudanças para o branch pai
 * **Conflito textual** × **conflito semântico**
+* Em um modelo bastante simplificado, cada vez que dobramos a duração do branch filho:
+  * O valor esperado e a incerteza do esforço de integração quintuplica  
 
 | ![](/images/split-and-merge.png) |
 | :--------------------------------: |
@@ -184,48 +186,45 @@ Criado por [Scott Chacon em 2011](http://scottchacon.com/2011/08/31/github-flow.
 * Branches de releases não são necessários
 * Problemas de produção são corrigidos da mesma maneira que features regulares, assim não há necessidade de branches de hotfix
 * **Feature branching de duração limitada**
-* **Revisão pré-integração no modo Pull-Request**
-
-### Branch Saldável
-
-* Essencial escrever **código de autoteste** com uma **suíte de commit** que execute em menos de dez minutos
-* Práticas para manter alta **qualidade interna do código**:
-  * Pair programming
-  * Análise de programa estático
-  * **Revisão pré-integração**
+* **Revisão pré-integração usando Pull-Request**
 
 ### Branch Principal Pronto para Release
 
 * Manter o  **branch `master`** suficientemente **saudável** para que o head do `master` possa sempre ser colocado diretamente em produção
+* Para manter o branch saldável é essencial escrever **código de autoteste**:
+  * **Conjunto abrangente de testes automatizados**, para que possamos ter confiança de que, se esses testes passarem, o código de produção **não conterá bugs**
+  * **Executados rapidamente**, geralmente **não mais do que dez minutos**
+  * **Toma mais tempo do que** o desenvolvimento do **código de produção**
+* Precisamos manter **qualidade interna do código** alta usando práticas como:
+  * Análise de programa estática
+  * **Revisão pré-integração**
+* Se o time usa feature branching de longa duração (> 2 semanas):
+  * O branch principal pronto para o release pode ser uma barreira para sua melhoria
+* Vantagens:
+  * Juntamente com a **integração contínua** como parte do **delivery contínuo**, [um branch principal pronto para release é uma característica de times de elite](/assets/2016-State-of-DevOps-Report.pdf)
+  * Simplicidade
+  * Garante que os problemas não entrem gradualmente no sistema, seja como bugs ou como problemas de processo que retardam o ciclo do produto
 
 |   ![](/images/mainline-release.png)    |
 | :--------------------------------------: |
 | **Branch principal pronto para release** |
 
-* **Delivery contínuo** × **Deploymento contínuo**  
-* Juntamente com a integração contínua como parte do delivery contínuo, [um branch principal pronto para release é uma característica de times de elite](/assets/2016-State-of-DevOps-Report.pdf)
-* Se o time usa branches de feature de longa duração:
-  * O branch principal pronto para o release pode ser uma barreira para sua melhoria
-* Vantagens:
-  * Simplicidade
-  * Garante que os problemas não entrem gradualmente no sistema, seja como bugs ou como problemas de processo que retardam o ciclo do produto
-
 ### Feature Branching de Duração Limitada
 
 * No GitHub flow, os branches de feature são pushados regularmente para o repositório `origin`
 * Mas não há integração com o `master`até o feature seja concluído
-* O GitHub flow recomenda branches de feature de duração entre  **dez minutos a duas semanas**
+* O GitHub flow recomenda **branches de feature** de duração entre  **dez minutos a duas semanas** incluindo a revisão pré-integração
 * O estudo do [Relatório State Of DevOps](/assets/2016-State-of-DevOps-Report.pdf) indicou que as equipes de desenvolvimento de elite integram com mais frequência do que as de baixo desempenho
   * Aumenta a frequência de merges, mas reduz sua complexidade e risco
   * Alerta as equipes sobre conflitos com muito mais rapidez
   * Aumenta a interação entre os membros do time
 
-### Revisão Pré-integração no Modo Pull Request
+### Revisão Pré-integração no Modo de Pull Request
 
-* O modelo **pull request** (PR) foi introduzido pelo GitHub, em 2008
+* O modelo **Pull Request** (PR) foi introduzido pelo GitHub, em 2008
 * [Google pratica modelo semelhante](https://youtu.be/sMql3Di4Kgc) desde 2005
 * No GitHub flow, todo o código é revisado antes de ser integrado
-* O tempo de revisão de código deve ser aproximadamente metade do tempo de codificação
+* O tempo da revisão deve ser aproximadamente metade do tempo de desenvolvimento do código sendo integrado
 * Alguns desenvolvedores squasham (rebase) as mudanças em um único commit antes de iniciar um pull request
 
 |    ![](/images/pull-request-1.png)    |
@@ -247,14 +246,13 @@ Paul Hammand escreveu [um site detalhado](https://trunkbaseddevelopment.com/) pa
   * Branch de release (“branch para release”)
   * Branch principal pronto para release (“release a partir do tronco”)
 * [Google pratica Desenvolvimento Baseado no Tronco](/assets/why_google_store_billions_of_locs_in_a_single_repository.pdf): 
-  * **25+ mil desenvolvedores**
   * **2+ bilhões de linhas de código**
   * Tronco **monorepo** único
   * **Checkout esparso**
 
 |                 ![](/images/trunk1b.png)                 |
 | :------------------------------------------------------: |
-| **Desenvolvimento baseado no tronco para times menores** |
+| **Desenvolvimento baseado no Tronco para times menores** |
 
 |        ![](/images/trunk1c.png)         |
 | :---------------------------------------: |
@@ -262,14 +260,20 @@ Paul Hammand escreveu [um site detalhado](https://trunkbaseddevelopment.com/) pa
 
 ### Integração Contínua
 
-* Os desenvolvedores fazem **integração ao branch principal** assim que têm um **commit saudável** que podem compartilhar
-* **Nunca** deve ter **mais de um dia de trabalho não integrado** em seu repositório local
-* **Não há necessidade de** que o **feature** esteja **completo**
+* **Integração contínua**:
+  * **Nunca** deve ter **mais de um dia de trabalho não integrado** no repositório local de ninguém
+  * Toda integração é buildada e testada com **código de autoteste**
+* **Não** é **necessário** de que o **feature** esteja **completo**
 * O time deve conhecer técnicas para ocultar features parciais como:
   * **Branch por abstração** para mudanças mais longas
   * **Feature flags** no desenvolvimento do dia a dia
-* Necessário ter **código de autoteste**
 * Pode integrar **diretamente no `master`** ou usar **branches de feature de curta duração**
+
+#### Confusão com Ferramentas de CI
+
+* Uma ferramenta de CI é um serviço que builda automaticamente o produto de software antes de cada delivery (como Jenkins, Team City, Travis CI, Circle CI, Bamboo)
+* As organizações que usam essas ferramentas as usa para buildar automaticamente **branches de feature de duração maior que um dia não** estão praticando **integração contínua**
+* Um melhor nome para essas ferramentas seria ferramentas de Build Contínuo
 
 #### Feature Branching × Integração Contínua
 
@@ -280,7 +284,10 @@ Conforme [Martin Fowler](https://martinfowler.com/articles/branching-patterns.ht
 | ❌ Merges menos frequentes<br /> ✔ Todo o código em um feature pode ser avaliado quanto à qualidade como uma unidade<br /> ✔ O código do feature só é adicionado ao produto quando o feature estiver completo<br /> | ✔ Merges menores<br /> ✔ Tempo reduzido para encontrar conflitos<br /> ✔ Encoraja a refatoração<br /> ✔ Apoia integração em período menor do que o tamanho do feature<br /> ❌ Requer compromisso com branches saudáveis (e, portanto, código de autoteste)<br /> ✔ [Evidência científica](/assets/2016-State-of-DevOps-Report.pdf) de que contribui para um maior desempenho de entrega de software |
 
 ## Recomendações
-* Sempre que estiver considerando usar um branch, descubra como fará o merge
-* Certifique-se de entender as alternativas ao Git-flow, como o GitHub flow e o Desenvolvimento Baseado no Tronco, são geralmente superiores
+* Sempre que estiver pensando em usar um branch, procure entender as consequências no merge
+* Certifique-se de entender as alternativas ao Git-flow, como o GitHub flow e o Desenvolvimento Baseado no Tronco, que são geralmente superiores
+* Pratique revisão pré-integração com duração de aproximadamente metade do tempo de desenvolvimento do código
 * Tente duplicar sua frequência de integração
-* Preste atenção ao que está dificultando o merge
+* Quando a duração dos branches de feature não for maior do que 7 dias úteis:
+  * Pratique o branch principal pronto para o release 
+
