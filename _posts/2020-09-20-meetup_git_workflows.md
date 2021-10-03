@@ -10,12 +10,16 @@
 |         **Branch e head**         |
 
 * **Branching** é a duplicação de um branch
-* Cada branch pode ser modificado separadamente em paralelo de forma que os branches se tornam diferentes
-* O branch de origem é chamada de *branch pai* ou *branch upstream*
-* O branching implica na capacidade de posteriormente *mergear* ou *integrar* as mudanças para o branch pai
-* **Conflito textual** × **conflito semântico**
-* Em um modelo bastante simplificado, cada vez que dobramos a duração do branch filho:
-  * O valor esperado e a incerteza do esforço de integração quintuplica  
+  * Depois do branching, cada branch pode ser modificado separadamente em paralelo
+* O branching implica na capacidade de posteriormente **mergear** ou **integrar** as mudanças
+* Poderá haver algum esforço para resolver  **conflitos de merge**:
+  * **Conflito textual** × **conflito semântico**
+  * [Principais fatores que influenciam o esforço na resolução de conflitos](/assets/paper15.pdf):
+    * **Complexidade** das linhas de código em conflito
+    * **Modularidade**: acoplamento × coesão
+    * **Tamanho dos branches**: número de linhas de código modificadas ou adicionadas depois do branching
+  * Via de regra, quando dobramos o tamanho dos branches:
+    * O valor esperado e a incerteza do esforço na resolução de conflitos quadruplica
 
 | ![](/images/split-and-merge.png) |
 | :--------------------------------: |
@@ -288,6 +292,6 @@ Conforme [Martin Fowler](https://martinfowler.com/articles/branching-patterns.ht
 * Certifique-se de entender as alternativas ao Git-flow, como o GitHub flow e o Desenvolvimento Baseado no Tronco, que são geralmente superiores
 * Pratique revisão pré-integração com duração de aproximadamente metade do tempo de desenvolvimento do código
 * Tente duplicar sua frequência de integração
-* Quando a duração dos branches de feature não for maior do que 7 dias úteis:
+* Quando a duração dos branches de feature não for maior do que 1 semana:
   * Pratique o branch principal pronto para o release 
 
