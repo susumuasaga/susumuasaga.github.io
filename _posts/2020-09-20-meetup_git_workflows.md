@@ -61,9 +61,12 @@ Criado por [Vincent Driessen em 2010](https://nvie.com/posts/a-successful-git-br
 * **Um branch separado para cada feature**
 * Tem origem no `develop`
 * Pode ter qualquer nome que não comece com `release` ou `hotfix`
-* Se estiver trabalhando nisso por um tempo: **mergeie o `develop` para o branch do feature**
-* Continuar trabalhando nesse branch até **terminar o feature**
-* **Integrar com o `develop`**
+* O escopo do branch deve ser definido precisamente na sua criação
+  * **Nunca** realizar tarefas **fora do escopo** pré-definido na branch
+* Quando houver novos commits no `develop`:
+  * **Mergeie o `develop` para o branch do feature**
+* Quando **terminar o feature**:
+  * **Integrar com o `develop`**
 
 | ![](/images/feature_integration.png) |
 | :------------------------------------: |
@@ -73,11 +76,12 @@ Criado por [Vincent Driessen em 2010](https://nvie.com/posts/a-successful-git-br
 
 * Branches de release são cortados de um commit específico no `develop`
 * Convenção de nomenclatura `release-v<n>.<m>`
-* Apenas aceita commits de correções, nunca commits de features
-* **Essas correções** devem ser **mergeadas ao `develop`**
+* Não permite que novos features sejam adicionados ao release
+* Os desenvolvedores que trabalham no release se concentram exclusivamente em remover quaisquer defeitos que impeçam o release de estar pronto para produção
 * Se não há mais falhas para lidar: 
   * O branch está pronto para release em produção
-* Conforme mais commits modificam o mainline: 
+* **Essas correções** devem ser **mergeadas ao `develop`**
+* Conforme mais commits modificam o branch principal: 
   * Fica cada vez mais difícil mergear o branch de release no branch principal
 * É muito comum negligenciar a integração das correções
 
@@ -115,9 +119,7 @@ Criado por [Vincent Driessen em 2010](https://nvie.com/posts/a-successful-git-br
 | :----------------------------: |
 |      **Branch de hotfix**      |
 
-* Se o time estiver usando branches de release:
-  * O trabalho de hotfix pode ser feito no branch de release
-
+* O trabalho de hotfix pode ser feito no branch de release
 * É possível fazer os hotfixes no branch principal, cherry-pická-los para o branch de release
 
 |  ![](/images/hotfix-rb.png)  |
@@ -148,9 +150,11 @@ Criado por [Vincent Driessen em 2010](https://nvie.com/posts/a-successful-git-br
 
 * O histórico de Git se torna ilegível, cheia de uma série confusa de commits de merge
 * O branch de produção é desnecessário
-* Git-flow é desnecessariamente complicado 
-* Permite branches de feature de longa duração
-* Permite branch principal não saldáveis
+* Com 5 tipos de branches, o Git-flow é desnecessariamente complicado 
+* [Não adequado para Delivery Contínuo](https://nvie.com/posts/a-successful-git-branching-model/)
+  * Permite branches de feature de longa duração
+  * Branch principal não pronto para o realease
+
 
 ## OneFlow
 
@@ -173,12 +177,14 @@ Proposta no artigo [Git-flow considered harmful por Adam Ruka em 2015](https://w
 * O histórico do Git será mais limpo, menos confuso, mais legível
 * O histórico de commits mostra a **história de como o projeto foi feito**
 * O histórico do Git é **passado a limpo**
+* É adequado para projetos em que existem várias versões em produção
 
 #### Desvantagens
 
 * Alguns times têm dificuldade de usar comandos para rescrita do histórico
-* Permite branches de feature de longa duração
-* Permite branch principal não saldáveis
+* Não adequado para o Delivery Contínuo
+  * Permite branches de feature de longa duração
+  * Branch principal não pronto para o release
 
 ## GitHub Flow
 
@@ -216,8 +222,8 @@ Criado por [Scott Chacon em 2011](http://scottchacon.com/2011/08/31/github-flow.
 ### Feature Branching de Duração Limitada
 
 * No GitHub flow, os branches de feature são pushados regularmente para o repositório `origin`
-* Mas não há integração com o `master`até o feature seja concluído
-* O GitHub flow recomenda **branches de feature** de duração entre  **dez minutos a duas semanas** incluindo a revisão pré-integração
+* Não há integração com o `master`até o feature seja concluído
+* O GitHub flow recomenda **branches de feature** de duração limitada entre  **dez minutos a duas semanas** incluindo a revisão pré-integração
 * O estudo do [Relatório State Of DevOps](/assets/2016-State-of-DevOps-Report.pdf) indicou que as equipes de desenvolvimento de elite integram com mais frequência do que as de baixo desempenho
   * Aumenta a frequência de merges, mas reduz sua complexidade e risco
   * Alerta as equipes sobre conflitos com muito mais rapidez
@@ -227,7 +233,7 @@ Criado por [Scott Chacon em 2011](http://scottchacon.com/2011/08/31/github-flow.
 
 * O modelo **Pull Request** (PR) foi introduzido pelo GitHub, em 2008
 * [Google pratica modelo semelhante](https://youtu.be/sMql3Di4Kgc) desde 2005
-* No GitHub flow, todo o código é revisado antes de ser integrado
+* Todo o código é revisado antes de ser integrado
 * O tempo da revisão deve ser aproximadamente metade do tempo de desenvolvimento do código sendo integrado
 * Alguns desenvolvedores squasham (rebase) as mudanças em um único commit antes de iniciar um pull request
 
