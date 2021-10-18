@@ -44,10 +44,41 @@ Neste artigo expomos diversos workflows que suportam o desenvolvimento em parale
 
 ## Git-flow
 
+### Branch Principal ou Tronco
+
+### Feature Branching
+
+### Branches de Release
+
+### Branches de Hotfix
+
+### Branch de Produção
+
+### Quando Usar o Git-flow
+
 ## OneFlow
+
+### Características
+
+### Quando Usar o OneFlow
 
 ## GitHub Flow
 
+### Características
+
+### Branch Principal Pronto para o Release
+
+### Feature Branching de Duração Limitada
+
+### Revisão Pré-integração no Modo de Pull Request
+
 ## Desenvolvimento Baseado no Tronco
 
+### Características
+
+### Integração Contínua
+
+### Feature Branching × Integração Contínua
+
 ## Conclusão
+
