@@ -24,9 +24,9 @@ Os conflitos de merge podem ser classificados em três tipos conforme a forma de
 
 1. O **conflito textual** ocorre quando os desenvolvedores modificam os mesmos arquivos de código em paralelo. Este é o tipo de conflito que é detectado automaticamente pelo Git, mas requer intervenção humana para sua resolução;
 
-1. O **conflito semântico estático**  ocorre quando as falhas aparecem na análise do programa estática, por exemplo na compilação. Isso acontece, por exemplo, quando há um conflito associado ao nome de uma função;
+2. O **conflito semântico estático**  ocorre quando as falhas aparecem na análise do programa estática, por exemplo na compilação. Isso acontece, por exemplo, quando há um conflito associado ao nome de uma função;
 
-1. O **conflito semântico dinâmico** é o mais insidioso e dificultoso, ocorre quando as falhas aparecem somente em tempo execução. Este tipo de conflito é detectado por um teste que reproduza as condições da falha.
+3. O **conflito semântico dinâmico** é o mais insidioso e dificultoso, ocorre quando as falhas aparecem somente em tempo execução. Este tipo de conflito é detectado por um teste que reproduza as condições da falha.
 
 Os conflitos de merge têm impacto na qualidade do código, são perturbadores para o fluxo de trabalho de desenvolvimento. Para resolver um conflito de merge, um desenvolvedor tem que parar o que está fazendo e focar na resolução. Resolver um conflito requer que o desenvolvedor entenda as mudanças conflitantes, crie uma solução de consenso que satisfaça ambos os conjuntos de requisitos que impulsionaram as mudanças. Não há como criar um algoritmo para resolver conflitos automaticamente. Muitos times gastam uma quantidade excessiva de tempo lidando com seu emaranhado de branches.
 
@@ -63,6 +63,99 @@ Neste artigo expomos diversos workflows que suportam o desenvolvimento em parale
 ### Quando Usar o OneFlow
 
 ## GitHub Flow
+
+Criado por [Scott Chacon em 2011](http://scottchacon.com/2011/08/31/github-flow.html).
+
+- GitHub flow chama o branch principal de `master`
+- Única versão em produção
+- **Branch principal pronto para release**
+- Branches de releases não são necessários
+- Problemas de produção são corrigidos da mesma maneira que features regulares, assim não há necessidade de branches de hotfix
+- **Feature branching de duração limitada**
+- **Revisão pré-integração usando Pull-Request**
+
+### Branch Principal Pronto para Release
+
+- Manter o  **branch master** suficientemente **saudável** para que o head do `master` possa sempre ser colocado diretamente em produção
+
+- Para manter o branch saldável é essencial escrever 
+
+  código de autoteste:    
+
+  - **Conjunto abrangente de testes automatizados**, para que possamos ter confiança de que, se esses testes passarem, o código de produção **não conterá bugs**.
+  - **Executados rapidamente**, geralmente **não mais do que dez minutos**
+  - **Toma mais tempo do que** o desenvolvimento do **código de produção**
+
+- Precisamos manter 
+
+  qualidade interna do código
+
+   alta usando práticas como:    
+
+  - Análise de programa estática
+  - **Revisão pré-integração**
+
+- Se o time usa feature branching de longa duração (> 2 semanas):    
+
+  - O branch principal pronto para o release pode ser uma barreira para sua melhoria
+
+- Vantagens:    
+
+  - Juntamente com a **integração contínua** como parte do **delivery contínuo**, [um branch principal pronto para release é uma característica de times de elite](https://susumuasaga.github.io/assets/2016-State-of-DevOps-Report.pdf)
+  - Simplicidade
+  - Garante que os problemas não entrem gradualmente no sistema, seja como bugs ou como problemas de processo que retardam o ciclo do produto
+
+| ![img](https://susumuasaga.github.io/images/mainline-release.png) |
+| ---------------------------------------- |
+| **Branch principal pronto para release** |
+
+### Feature Branching de Duração Limitada
+
+- No GitHub flow, os branches de feature são pushados regularmente para o repositório `origin`
+
+- Não há integração com o `master`até o feature seja concluído
+
+- O GitHub flow recomenda **branches de feature** de duração limitada entre  **dez minutos a duas semanas** incluindo a revisão pré-integração
+
+- O estudo do 
+
+  Relatório State Of DevOps
+
+   indicou que as equipes de desenvolvimento de elite integram com mais frequência do que as de baixo desempenho    
+
+  - Aumenta a frequência de merges, mas reduz sua complexidade e risco
+  - Alerta as equipes sobre conflitos com muito mais rapidez
+  - Aumenta a interação entre os membros do time
+
+### Revisão Pré-integração no Modo de Pull Request
+
+- O modelo **Pull Request** (PR) foi introduzido pelo GitHub, em 2008
+- [Google pratica modelo semelhante](https://youtu.be/sMql3Di4Kgc) desde 2005
+- Todo o código é revisado antes de ser integrado
+- O tempo da revisão deve ser aproximadamente metade do tempo de desenvolvimento do código sendo integrado
+- Alguns desenvolvedores squasham (rebase) as mudanças em um único commit antes de iniciar um pull request
+
+| ![img](https://susumuasaga.github.io/images/pull-request-1.png) |
+| ---------------------------------------- |
+| **Josh pede ajuda para BrianBrian responde com alguns conselhos** |
+
+| ![img](https://susumuasaga.github.io/images/pull-request-2.png) |
+| ---------------------------------------- |
+| **Josh reconhece os comentários de BrianPusha mais códigos para os atender** |
+
+### Minimizando conflitos no merge:
+
+O conflito de merge se dá exatamente quando o Git identifica para nós que existe duas ou mais alterações em um mesmo local de um determinado arquivo e que o Git precisa que nós para resolvemos. O conflito de merge que comumente e naturalmente aconteça pode ser algo estressante e ter impacto no processo de entrega, a não ser que práticas sejam adotadas para minimizar esses conflitos.
+
+**Ramificações do Git**: Se pretende utilizar o GitHub Flow que propõe feature com limite de dez minutos a 2 semanas, a metódologia Ágil é boa escolha e assim tendo as ramificações do recurso que será desenvolvido é possível encaixar o Git.
+
+**Macro Solução**: Tendo uma macro solução fica fácil visualizar o fluxo completo do processo assim podendo estabelecer uma melhor divisão e distribuição das tarefas para equipe evitando que a equipe trabalhe de forma aleatória podendo ter recursos desenvolvidos por mais de um colaborardevido que partes diferentes do sistema comumente utilizaram. 
+
+**Git pull and Git Commit daily (nessa ordem)**: A equipe deve diariamente atualizar seu respositório local e efetuar commits de suas alterações diariamente também assim manterá toda a equipe com as alterações mais recentes constantemente minizande grandes ou até mesmo imensos merges e seus conflitos a pequenos conflitos em partes pontuais e mais criticas do sistema e que comumente são aguardadas no merge.
+
+**Testes unitários, integrados e automátizados**: Testes são fundamentais para que mesmo que possa resolver diariamente **conflito textual** e **conflito semântico estático** a cada git pull diário e também no merge final, a equipe tenha a confiança que **conflito semântico dinâmico** não serão visto em ambiente de produção ou mesmo que seja descoberto antes, talvez seja descoberto em cima do prazo da entrega gerando transtorno.
+
+**Padrões de desenvolvimento**: padrões são essenciais para que possamos minimizar conflitos de merge, pois tendo padrões seja convencionais ou não farão com que a equipe respeite eles e as alterações não serão feitas de qualquer jeito, um exemplo, atualizações diárias e antes de commit.
 
 ### Características
 
