@@ -64,15 +64,13 @@ Neste artigo expomos diversos workflows que suportam o desenvolvimento em parale
 
 ## GitHub Flow
 
-Criado por [Scott Chacon em 2011](http://scottchacon.com/2011/08/31/github-flow.html).
+O fluxo de GitHub é um fluxo de trabalho leve e baseado no branch criado por [Scott Chacon em 2011](http://scottchacon.com/2011/08/31/github-flow.html). Scott no eu artigo explica que um dos aspecto visado na criação do GitHub flow é a implantação diaria, ou mesmo várias vezes ao dia, isto é, a branch principal o repositorio de produção sofre atualizações constantemente.
 
-- GitHub flow chama o branch principal de `master`
-- Única versão em produção
-- **Branch principal pronto para release**
-- Branches de releases não são necessários
-- Problemas de produção são corrigidos da mesma maneira que features regulares, assim não há necessidade de branches de hotfix
-- **Feature branching de duração limitada**
-- **Revisão pré-integração usando Pull-Request**
+Hoje o GitHub chama sua branch principal de main (antigamente master), possui uma única versão em produção, a branch principal pronto para release, branches de releases não são necessários, problemas de produção são corrigidos da mesma maneira que features regulares, assim não há necessidade de branches de hotfix, feature branching de duração limitada, revisão pré-integração usando Pull-Request.
+
+A branch principal por sofrer atualições em um curto prazo Scott vê vantagem no aspecto de minimizar a introduções de grandes bugs e também em contra pronto na introduções de pequenos bugs na branch principal é possível rapidamente corrigir e reimplantar, como já listado acima, a branch principal está sempre pronta para release.
+
+O GitHub Flow possui uma proposta menos burocratica e agil, comumente se comporta muito bem uma metologia agil, porém para o GitHub Flow atender sprints de até 2 semanas, 1 semanas ou implantações diárias é necessário uma equipe com uma certa maturidade, tendo e respeitando boas práticas de desenvolvimento, padrões desenvolvimento de sofwtare e não menos importante desenvolvimento de testes (unitários, integrados e automatizado), utilizar o TDD (Test Driven Development) como padrão de desenvolvimento de software é uma boa. 
 
 ### Branch Principal Pronto para Release
 
@@ -149,11 +147,13 @@ O conflito de merge se dá exatamente quando o Git identifica para nós que exis
 
 **Ramificações do Git**: Se pretende utilizar o GitHub Flow que propõe feature com limite de dez minutos a 2 semanas, a metódologia Ágil é boa escolha e assim tendo as ramificações do recurso que será desenvolvido é possível encaixar o Git.
 
-**Macro Solução**: Tendo uma macro solução fica fácil visualizar o fluxo completo do processo assim podendo estabelecer uma melhor divisão e distribuição das tarefas para equipe evitando que a equipe trabalhe de forma aleatória podendo ter recursos desenvolvidos por mais de um colaborardevido que partes diferentes do sistema comumente utilizaram. 
+**Macro Solução** (ver o termo diferente /planejamento): Tendo uma macro solução fica fácil visualizar o fluxo completo do processo assim podendo estabelecer uma melhor divisão e distribuição das tarefas para equipe evitando que a equipe trabalhe de forma aleatória podendo ter recursos desenvolvidos por mais de um colaborardevido que partes diferentes do sistema comumente utilizaram. 
 
-**Git pull and Git Commit daily (nessa ordem)**: A equipe deve diariamente atualizar seu respositório local e efetuar commits de suas alterações diariamente também assim manterá toda a equipe com as alterações mais recentes constantemente minizande grandes ou até mesmo imensos merges e seus conflitos a pequenos conflitos em partes pontuais e mais criticas do sistema e que comumente são aguardadas no merge.
+**Git fetch, GitMerge and Git Commit daily na master (nessa ordem)**:  (master para feature branch .....) A equipe deve diariamente atualizar seu respositório local e efetuar commits de suas alterações diariamente também assim manterá toda a equipe com as alterações mais recentes constantemente minizande grandes ou até mesmo imensos merges e seus conflitos a pequenos conflitos em partes pontuais e mais criticas do sistema e que comumente são aguardadas no merge.
 
-**Testes unitários, integrados e automátizados**: Testes são fundamentais para que mesmo que possa resolver diariamente **conflito textual** e **conflito semântico estático** a cada git pull diário e também no merge final, a equipe tenha a confiança que **conflito semântico dinâmico** não serão visto em ambiente de produção ou mesmo que seja descoberto antes, talvez seja descoberto em cima do prazo da entrega gerando transtorno.
+**Cada branch deve ter um escopo definido:** Não fazer nada além do que foi definido no escopo.
+
+**Testes unitários, integrados e automátizados**: Testes são fundamentais para que mesmo que possa resolver diariamente **conflito textual** e **conflito semântico estático** a cada git pull diário e também no merge final, a equipe tenha a confiança que **conflito semântico dinâmico** não serão visto em ambiente de produção ou mesmo que seja descoberto antes, talvez seja descoberto em cima do prazo da entrega gerando transtorno. (antes de pull request ser aprovados - commit test (não é um teste de aceitação e sim de commit próximo de um teste unitário - verificando se o que está sendo entrega está trazendo bugs /trazendo problemas na base de código que está na main;;;; Teste de verificação estática - compilador/IDE faz essa verificação;;;;;; Revisão de pull request/revisão de pré integração - Padrão de condificação - code standard))
 
 **Padrões de desenvolvimento**: padrões são essenciais para que possamos minimizar conflitos de merge, pois tendo padrões seja convencionais ou não farão com que a equipe respeite eles e as alterações não serão feitas de qualquer jeito, um exemplo, atualizações diárias e antes de commit.
 
