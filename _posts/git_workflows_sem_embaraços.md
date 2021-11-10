@@ -58,9 +58,45 @@ Neste artigo expomos diversos workflows que suportam o desenvolvimento em parale
 
 ## OneFlow
 
-### Características
+Proposta por [Adam Ruka](https://www.endoflineblog.com/about) nos artigos:  
+1. [GitFlow considered harmful(Março de 2015)](https://www.endoflineblog.com/gitflow-considered-harmful)
+1. [Follow-up to 'GitFlow considered harmful'(Junho de 2015)](https://www.endoflineblog.com/follow-up-to-gitflow-considered-harmful)
+1. [OneFlow – a Git branching model and workflow(Abril de 2017)](https://www.endoflineblog.com/oneflow-a-git-branching-model-and-workflow)
+
+Há ainda outro artigo escrito pelo autor sobre a aplicação do fluxo nos serviços GitHub, BitBucket & GitLab, mas este escapa ao presente escopo.
+
+| ![](/images/antigitflow-order.png) |
+| :----------------------------------: |
+|        **Modelo de OneFlow**         |
+
+* OneFlow chama seu branch principal(único "perene") de `master`;
+* O branch de produção, que havia no Git-Flow, é substituído por um esquema de tagueamento -- o que é suficiente para manter a informação das versões, originalmente no branch de produção;
+* Todos os outros branches (feature, release, hotfix) são temporários, usados apenas como uma conveniência para compartilhar código com outros desenvolvedores e como uma medida de backup;
+* Os **features** são **integrados diretamente** (rebase) no `master`,  de forma a manter um **histórico linear**;
+* Os releases e hotfixes são feitos de forma semelhante ao Git-flow.
+
+### Características(Vantagens e Desvantagens) do Oneflow
+
+#### Vantagens
+
+* O histórico do Git será mais limpo, menos confuso, mais legível;
+* A sequencia dos commits corresponde rigorosamente à cronologia do projeto.
+
+#### Desvantagens
+
+* Não é adequado para projetos em que coexistem versões não compatíveis em produção;
+* Alguns times têm dificuldade de usar comandos para reescrita do histórico;
+* Não adequado para o Delivery Contínuo, pois:
+  * Permite branches de feature de longa duração;
+  * Branch principal não pronto para o release.
+
 
 ### Quando Usar o OneFlow
+* Por ser uma "reação" ao GitFlow, é um substituto imediato para qualquer projeto que o use;
+* Nos projetos onde qualquer versão é necessariamente baseada na anterior, o que casa com a metodologia do OneFlow;
+* Na esmagadora maioria dos projetos Web;
+* Em grande parte dos projetos Open-Source que seguem o versionamento linear.
+
 
 ## GitHub Flow
 
