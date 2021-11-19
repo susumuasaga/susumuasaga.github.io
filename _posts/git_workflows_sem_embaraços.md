@@ -58,7 +58,7 @@ Neste artigo expomos diversos workflows que suportam o desenvolvimento em parale
 
 ## OneFlow
 
-Proposta por [Adam Ruka](https://www.endoflineblog.com/about) nos artigos:  
+Este fluxo(flow) de trabalho no Git for originalmente proposto por [Adam Ruka](https://www.endoflineblog.com/about) nos artigos:  
 1. [GitFlow considered harmful(Março de 2015)](https://www.endoflineblog.com/gitflow-considered-harmful)
 1. [Follow-up to 'GitFlow considered harmful'(Junho de 2015)](https://www.endoflineblog.com/follow-up-to-gitflow-considered-harmful)
 1. [OneFlow – a Git branching model and workflow(Abril de 2017)](https://www.endoflineblog.com/oneflow-a-git-branching-model-and-workflow)
@@ -69,26 +69,19 @@ Há ainda outro artigo escrito pelo autor sobre a aplicação do fluxo nos servi
 | :----------------------------------: |
 |        **Modelo de OneFlow**         |
 
-* OneFlow chama seu branch principal(único "perene") de `master`;
-* O branch de produção, que havia no Git-Flow, é substituído por um esquema de tagueamento -- o que é suficiente para manter a informação das versões, originalmente no branch de produção;
-* Todos os outros branches (feature, release, hotfix) são temporários, usados apenas como uma conveniência para compartilhar código com outros desenvolvedores e como uma medida de backup;
-* Os **features** são **integrados diretamente** (rebase) no `master`,  de forma a manter um **histórico linear**;
-* Os releases e hotfixes são feitos de forma semelhante ao Git-flow.
+Um dos aspectos definidores do OneFlow é o uso de um branch único como principal(único "perene") de `master`. Isso é conseguido via eliminação do branch de produção, tal como no Git-Flow, sendo esse substituído por um esquema de tagueamento -- o que é suficiente para manter a informação das versões, originalmente no branch de produção.
+Os outros branches "clássicos"(feature, release, hotfix) são temporários, e são usados principalmente como uma conveniência para compartilhar código com outros desenvolvedores e como uma medida de backup. Destarte, os **features** são **integrados diretamente** (rebase) no `master`,  de forma a manter um **histórico linear**; já os releases e hotfixes são feitos de forma semelhante ao Git-flow.
 
 ### Características(Vantagens e Desvantagens) do Oneflow
 
 #### Vantagens
 
-* O histórico do Git será mais limpo, menos confuso, mais legível;
-* A sequencia dos commits corresponde rigorosamente à cronologia do projeto.
+A vantagem mais óbvia, do ponto de vista do usuário do git, é a facilidade em se localizar no histórico do Git, dada a linearidade obtida com a manutenção rígida do branch principal único; assim, a sequencia dos commits corresponde rigorosamente à cronologia do projeto. Dentro do contexto mais amplo do presente artigo, a facilidade(e conveniência) estimulada pelo branch principal único no desenvolvimento favorecerá de sobremaneira a abordagem aqui estimulada, no caso, o menor tempo possível de vida das diversas branches, sejam feature, release ou hotfix.
 
 #### Desvantagens
 
-* Não é adequado para projetos em que coexistem versões não compatíveis em produção;
-* Alguns times têm dificuldade de usar comandos para reescrita do histórico;
-* Não adequado para o Delivery Contínuo, pois:
-  * Permite branches de feature de longa duração;
-  * Branch principal não pronto para o release.
+Entre as desvantagens do presente fluxo a mais evidente e óbiva é a inadequação para projetos em que coexistem versões não compatíveis em produção, pelo mero uso do branch principal único. Superado esse aspecto, outra problema é a dificuldade sentida por alguns times em usar os comandos necessários para reescrita do histórico.
+Cabe ainda salientar que também não é adequado para o Delivery Contínuo(Continuous Delivery), dada a permissibilidade de branches de feature de longa duração, além do que a branch principal não é, por definição, pronta para o release. Nesse ponto, embora tenha sido apontada anteriormente uma conveniência ao princípio de encurtamento das branches, há oportunidade em se violar o princípio pois não há, por outro lado, uma restrição à duração da branch *per se*.
 
 
 ### Quando Usar o OneFlow
