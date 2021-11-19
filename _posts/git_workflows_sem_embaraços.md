@@ -58,38 +58,36 @@ Neste artigo expomos diversos workflows que suportam o desenvolvimento em parale
 
 ## OneFlow
 
-Este fluxo(flow) de trabalho no Git for originalmente proposto por [Adam Ruka](https://www.endoflineblog.com/about) nos artigos:  
-1. [GitFlow considered harmful(Março de 2015)](https://www.endoflineblog.com/gitflow-considered-harmful)
-1. [Follow-up to 'GitFlow considered harmful'(Junho de 2015)](https://www.endoflineblog.com/follow-up-to-gitflow-considered-harmful)
-1. [OneFlow – a Git branching model and workflow(Abril de 2017)](https://www.endoflineblog.com/oneflow-a-git-branching-model-and-workflow)
+Este fluxo (flow) de trabalho no Git for originalmente proposto por [Adam Ruka](https://www.endoflineblog.com/about) nos artigos:  
+1. [GitFlow considered harmful (Março de 2015)](https://www.endoflineblog.com/gitflow-considered-harmful)
+1. [Follow-up to 'GitFlow considered harmful' (Junho de 2015)](https://www.endoflineblog.com/follow-up-to-gitflow-considered-harmful)
+1. [OneFlow – a Git branching model and workflow (Abril de 2017)](https://www.endoflineblog.com/oneflow-a-git-branching-model-and-workflow)
 
-Há ainda outro artigo escrito pelo autor sobre a aplicação do fluxo nos serviços GitHub, BitBucket & GitLab, mas este escapa ao presente escopo.
+Há ainda outro artigo escrito pelo autor sobre a aplicação do fluxo nas plataformas de Git: GitHub, Bitbucket e GitLab, que escapa ao presente escopo.
 
-| ![](/images/antigitflow-order.png) |
+Um dos aspectos definidores do OneFlow é o uso de um branch único como principal (único "perene"), chamado aqui de `master`, correspondente ao branch `develop` de Git-flow. Isso é conseguido via eliminação do branch de produção, chamado de `master` no Git-flow, sendo esse substituído por um esquema de tagueamento -- o que é suficiente para manter a informação das versões, originalmente rastreados no branch de produção.
+
+Os outros branches "clássicos" (feature, release, hotfix) são temporários, e são usados principalmente como uma conveniência para compartilhar código com outros desenvolvedores e como uma medida de backup. Destarte, os **features** são **integrados diretamente** (via `rebase`) no `master`,  de forma a manter um **histórico linear**; já os releases e hotfixes são feitos de forma semelhante ao Git-flow. Na figura abaixo, mostramos como ficaria o diagrama de branch usando OneFlow no projeto exemplo, onde podemos verificar notável simplificação em relação ao Git-flow.
+
+| ![](../images/antigitflow-order.png) |
 | :----------------------------------: |
 |        **Modelo de OneFlow**         |
 
-Um dos aspectos definidores do OneFlow é o uso de um branch único como principal(único "perene") de `master`. Isso é conseguido via eliminação do branch de produção, tal como no Git-Flow, sendo esse substituído por um esquema de tagueamento -- o que é suficiente para manter a informação das versões, originalmente no branch de produção.
-Os outros branches "clássicos"(feature, release, hotfix) são temporários, e são usados principalmente como uma conveniência para compartilhar código com outros desenvolvedores e como uma medida de backup. Destarte, os **features** são **integrados diretamente** (rebase) no `master`,  de forma a manter um **histórico linear**; já os releases e hotfixes são feitos de forma semelhante ao Git-flow.
+### Vantagens do Oneflow
 
-### Características(Vantagens e Desvantagens) do Oneflow
+A vantagem mais óbvia, do ponto de vista do usuário do Git, é a facilidade de compreensão do histórico do Git, dada a linearidade obtida com a manutenção rígida do branch principal único; assim, a sequência dos commits é a **narrativa de como o projeto foi feito**. Você não publicaria o primeiro rascunho de um livro, então por que mostrar seu trabalho bagunçado? Quando está trabalhando em um projeto, pode precisar de um registro de todas suas tentativas e erros, mas, quando for a hora de mostrar seu trabalho para o mundo, pode querer contar uma narrativa direta de como sair de A para B. As pessoas neste campo usam comandos como `rebase` e `filter-branch` para rescrever seus commits antes de serem mergeados ao branch principal, de forma a contar a narrativa da maneira que for mais compreensível para futuros leitores. Esses comandos são considerados "avançados", assim alguns times podem ter certa dificuldade em usá-los.
 
-#### Vantagens
-
-A vantagem mais óbvia, do ponto de vista do usuário do git, é a facilidade em se localizar no histórico do Git, dada a linearidade obtida com a manutenção rígida do branch principal único; assim, a sequencia dos commits corresponde rigorosamente à cronologia do projeto. Dentro do contexto mais amplo do presente artigo, a facilidade(e conveniência) estimulada pelo branch principal único no desenvolvimento favorecerá de sobremaneira a abordagem aqui estimulada, no caso, o menor tempo possível de vida das diversas branches, sejam feature, release ou hotfix.
-
-#### Desvantagens
-
-Entre as desvantagens do presente fluxo a mais evidente e óbiva é a inadequação para projetos em que coexistem versões não compatíveis em produção, pelo mero uso do branch principal único. Superado esse aspecto, outra problema é a dificuldade sentida por alguns times em usar os comandos necessários para reescrita do histórico.
-Cabe ainda salientar que também não é adequado para o Delivery Contínuo(Continuous Delivery), dada a permissibilidade de branches de feature de longa duração, além do que a branch principal não é, por definição, pronta para o release. Nesse ponto, embora tenha sido apontada anteriormente uma conveniência ao princípio de encurtamento das branches, há oportunidade em se violar o princípio pois não há, por outro lado, uma restrição à duração da branch *per se*.
-
+Dentro do contexto mais amplo do presente artigo, a facilidade (e conveniência) estimulada pelo branch principal único no desenvolvimento favorecerá de sobremaneira a abordagem aqui estimulada, no caso, o menor tempo possível de vida das diversas branches, sejam feature, release ou hotfix.
 
 ### Quando Usar o OneFlow
-* Por ser uma "reação" ao GitFlow, é um substituto imediato para qualquer projeto que o use;
-* Nos projetos onde qualquer versão é necessariamente baseada na anterior, o que casa com a metodologia do OneFlow;
-* Na esmagadora maioria dos projetos Web;
-* Em grande parte dos projetos Open-Source que seguem o versionamento linear.
 
+OneFlow se destina a ser um substituto imediato para Git-flow, o que significa que é adequado em todas as situações em que o Git-flow é. De fato, é fácil migrar um projeto que esteja usando Git-flow para OneFlow.
+
+Na forma padrão, como foi proposta no artigo original, da mesma forma que o Git-flow, o Oneflow não pode ser usado em projetos em que têm mais do que uma versão em produção. Mas essa deficiência pode ser sanada se mantendo vários branches de release ativos, um para cada versão em produção, como mostramos na seção anterior sobre o Git-flow.
+
+### Quando Não Usar o OneFlow
+
+Como o autor enfatiza em seu artigo, assim como o Git-flow, o OneFlow não é adequado para projetos que usam Integração Contínua (Continuous Integration), dada a probabilidade de branches de feature que duram vários dias, além do que o branch principal não é, por definição, pronto para o release. Talvez partes da metodologia possam ainda ser úteis, mas outros elementos (como o processos de integração e release) teriam que ser fortemente modificados para fazer sentido ao fazer integração em uma cadência tão frequente (diária). 
 
 ## GitHub Flow
 
