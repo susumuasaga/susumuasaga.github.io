@@ -84,15 +84,9 @@ OBS: Master é o nome antigo utlizado pelo GitHub Flow para sua branch principal
 
 ### Revisão Pré-integração no Modo de Pull Request
 
-| ![img](https://susumuasaga.github.io/images/pull-request-1.png) |
-| ---------------------------------------- |
-| **Josh pede ajuda para BrianBrian responde com alguns conselhos** |
+Esse é um ponto de muita relevancia, pois esse modo nos da uma visibilidade do codigo interno para nossa própria revisão, mas também para outro, podendendo indicar suas preocupações para que quem irá revisar se atente com mais cuidado certas linhas de código, além de pedir para mesclar as branch.
 
-| ![img](https://susumuasaga.github.io/images/pull-request-2.png) |
-| ---------------------------------------- |
-| **Josh reconhece os comentários de BrianPusha mais códigos para os atender** |
-
-### Minimizando conflitos no merge:
+### Minimizando conflitos de merge:
 
 O conflito de merge se dá exatamente quando o Git identifica para nós que existe duas ou mais alterações em um mesmo local de um determinado arquivo e que o Git precisa que nós para resolvemos. O conflito de merge que comumente e naturalmente aconteça pode ser algo estressante e ter impacto no processo de entrega, a não ser que práticas sejam adotadas para minimizar esses conflitos.
 
@@ -100,11 +94,13 @@ O conflito de merge se dá exatamente quando o Git identifica para nós que exis
 
 **Macro Solução**: Tendo uma macro solução fica fácil visualizar o fluxo completo do processo assim podendo estabelecer uma melhor divisão e distribuição das tarefas para equipe evitando que a equipe trabalhe de forma aleatória podendo ter recursos desenvolvidos por mais de um colaborardevido que partes diferentes do sistema comumente utilizaram. 
 
-**Git fetch, GitMerge and Git Commit daily na main (nessa ordem)**:  A equipe deve diariamente atualizar seu respositório local e efetuar commits de suas alterações diariamente também assim manterá toda a equipe com as alterações mais recentes constantemente minizande grandes ou até mesmo imensos merges e seus conflitos a pequenos conflitos em partes pontuais e mais criticas do sistema e que comumente são aguardadas no merge. Assim também deve diariamente fazer merge com a branch principal a main, e em seguinda **Revisão de pull request revisão de pré integração**.
+**Testes unitários, integrados e automátizados**: Testes são fundamentais para que mesmo que possa resolver diariamente **conflito textual** e **conflito semântico estático** a cada git pull diário e também no merge final, a equipe tenha a confiança que **conflito semântico dinâmico** não serão visto em ambiente de produção ou mesmo que seja descoberto antes, talvez seja descoberto em cima do prazo da entrega gerando transtorno. (antes de pull request ser aprovados - commit test (não é um teste de aceitação e sim de commit próximo de um teste unitário - verificando se o que está sendo entrega está trazendo bugs na base de código que está na main.
+
+**Git fetch, GitMerge and Git Commit daily na main (nessa ordem)**:  A equipe deve diariamente atualizar seu respositório local e efetuar commits de suas alterações diariamente também assim manterá toda a equipe com as alterações mais recentes constantemente, isso minizará grandes ou até mesmo imensos merges e seus conflitos a pequenos conflitos em partes pontuais e mais criticas do sistema e que comumente são aguardadas no merge. Assim também deve diariamente fazer merge  com a branch principal a main para a feature branch, e em seguinda **Revisão de pull request revisão de pré integração**.
+
+**Merge ao contrário da main para feature** : git merge main (estando na sua feature branch) para que você tenha um repositório mais próximo da main, assim evitando que no momento de mesclar sua versão com a main tenham muito diferenças e/ou conflitos de merge a serem revisados e mesclado. 
 
 **Cada branch deve ter um escopo definido:** Não fazer nada além do que foi definido no escopo.
-
-**Testes unitários, integrados e automátizados**: Testes são fundamentais para que mesmo que possa resolver diariamente **conflito textual** e **conflito semântico estático** a cada git pull diário e também no merge final, a equipe tenha a confiança que **conflito semântico dinâmico** não serão visto em ambiente de produção ou mesmo que seja descoberto antes, talvez seja descoberto em cima do prazo da entrega gerando transtorno. (antes de pull request ser aprovados - commit test (não é um teste de aceitação e sim de commit próximo de um teste unitário - verificando se o que está sendo entrega está trazendo bugs na base de código que está na main.
 
 **Padrões de desenvolvimento**: padrões são essenciais para que possamos minimizar conflitos de merge, pois tendo padrões (code standard) seja convencionais ou não farão com que a equipe respeite eles e as alterações não serão feitas de qualquer jeito, um exemplo, atualizações diárias e antes de commit.
 
