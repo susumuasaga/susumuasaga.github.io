@@ -48,7 +48,7 @@
 
 Criado por [Vincent Driessen em 2010](https://nvie.com/posts/a-successful-git-branching-model/). 
 
-| ![](/images/git-model@2x.png) |
+| ![](/images/gitflow.png) |
 | :-----------------------------: |
 |     **Modelo de Git-flow**      |
 
