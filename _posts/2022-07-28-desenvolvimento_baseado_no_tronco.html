@@ -13,13 +13,29 @@
 <h1>Desenvolvimento Baseado no Tronco: <br />Céu, Terra e Purgatório</h1>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="2">
+<h1>Branch Develop (Terra)</h1>
+<p><img src="/images/develop.png" alt="h 500" /></p>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="3">
+<h1>Branch Develop (Terra)</h1>
+<ul>
+<li>Branch principal cujo Head sempre reflete um estado com as últimas mudanças de desenvolvimento para a próxima versão</li>
+<li>O desenvolvimento se dá por Feature Branching
+<ul>
+<li>Todo trabalho para uma feature é colocada numa Feature Branch (Subterrânea)</li>
+<li>É integrada ao branch Develop quando a Feature estiver <strong>completa</strong></li>
+</ul>
+</li>
+</ul>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="4">
 <h1>Branch Master ou Tronco (Céu)</h1>
 <ul>
-<li>Branch principal cujo Head sempre possa possa ser colocado diretamente em produção</li>
+<li>Branch principal cujo Head sempre pode ser colocado diretamente em produção</li>
 <li>É o Branch dos códigos perfeitos</li>
 </ul>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="3">
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="5">
 <h1>Padrões para Saúde do Tronco</h1>
 <ul>
 <li>Padrão de codificação, como um dos <a href="https://google.github.io/styleguide/">padrões de codificação do Google</a>
@@ -33,7 +49,7 @@
 <li>Revisão pré-integração</li>
 </ul>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="4">
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="6">
 <h1>Pontos Principais do Padrão <a href="https://peps.python.org/pep-0008/">PEP 8</a></h1>
 <ul>
 <li>Leiaute do código
@@ -47,7 +63,7 @@
 <li>Convenções de nomenclatura</li>
 </ul>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="5">
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="7">
 <h1>Docstrings</h1>
 <ul>
 <li><a href="https://google.github.io/styleguide/pyguide.html#s3.8-comments-and-docstrings">Docstrings padrão Google</a>
@@ -66,46 +82,31 @@
 </li>
 </ul>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="6">
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="8">
 <h1>Anotações de Tipos</h1>
 <ul>
 <li>Pelo menos anotar as APIs públicas</li>
 <li>Usar julgamento para chegar a um bom equilíbrio entre segurança e clareza por um lado, e flexibilidade por outro</li>
-<li>Anotar código que é propenso a erros relacionados ao tipo (bugs anteriores ou complexidade)</li>
+<li>Anotar código que é propenso a erros relacionados ao tipo</li>
 <li>Anotar códigos difíceis de entender</li>
-<li>Anotar código a medida que se torna estável do ponto de vista dos tipos
-<ul>
-<li>Pode-se anotar todas as funções de um código maduro sem perder muita flexibilidade</li>
-</ul>
-</li>
+<li>Anotar código a medida que se torna estável do ponto de vista dos tipos</li>
 </ul>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="7">
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="9">
 <h1>Código de Auto-teste</h1>
 <ul>
-<li>A medida que escrevemos o código de produção, também escrevemos um conjunto abrangente de testes automatizados para que possamos ter certeza de que o código não conterá bugs
-<ul>
+<li>A medida que escrevemos o código de produção, também escrevemos um conjunto abrangente de testes automatizados</li>
+<li>São executados em cada Commit</li>
+<li>Para garantir que não tenha defeitos no Tronco</li>
 <li>É normal o código de testes ser maior do que o código de produção</li>
 </ul>
-</li>
-<li>Assim podemos manter o Branch saudável executando uma compilação com cada Commit, essa compilação inclui a execução deste conjunto de testes</li>
-<li>Caso o sistema falhe ao compilar ou os testes falhem, nossa prioridade número um é corrigi-los antes de fazermos qualquer outra coisa nesse Branch
-<ul>
-<li>Muitas vezes isso significa &quot;congelar&quot; o Branch: nenhum Commit é permitido a ele além de correções para torná-lo saudável novamente</li>
-</ul>
-</li>
-</ul>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="8">
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="10">
 <h1>Revisão Pré-integração</h1>
 <ul>
 <li>Cada Commit para o tronco é revisado por pares antes que o Commit seja aceito</li>
 <li>Encaixa-se particularmente bem com o mecanismo de Pull Requests</li>
-<li>A prática se espalhou amplamente nas maiores empresas de tecnologia
-<ul>
-<li>Google e Facebook constroem ferramentas especiais para ajudar a fazer isto funcionar sem problemas</li>
-</ul>
-</li>
+<li>A prática se espalhou amplamente nas maiores empresas de tecnologia</li>
 <li>É importante desenvolver a disciplina para Revisões Pré-integração no prazo
 <ul>
 <li>Mesmo quando bem feito, as Revisões Pré-integração sempre introduzem alguma latência no processo de integração</li>
@@ -114,44 +115,66 @@
 </li>
 </ul>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="9">
-<h1>Git-flow</h1>
-<p><img src="../images/gitflow.png" alt="" /></p>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="10">
-<h1>Branch Develop (Terra)</h1>
-<ul>
-<li>Branch principal cujo Head sempre reflete um estado com as últimas mudanças de desenvolvimento para a próxima versão</li>
-<li>É o Branch dos códigos imperfeitos</li>
-</ul>
-</section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="11">
+<h1>Git-flow</h1>
+<p><img src="/images/gitflow.png" alt="" /></p>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="12">
 <h1>Branch Release (Purgatório)</h1>
 <ul>
 <li>Um Branch Release típico copiará do Branch Develop atual, mas não permitirá a adição de novos features</li>
-<li>Os desenvolvedores trabalhando no Branch de Release se concentram apenas em <strong>retrabalhar</strong> o código para remover as imperfeições que impeçam o Merge ao Tronco
-<ul>
+<li>Os desenvolvedores trabalhando no Branch de Release se concentram apenas em <strong>retrabalhar</strong> o código para remover as imperfeições que impeçam o Merge ao Tronco</li>
 <li>Quaisquer correções a estas imperfeições são criadas no Branch de Release e mergeadas ao Branch Develop</li>
 <li>Quando não houver mais imperfeições a serem retrabalhadas, o Branch estará pronto para o Merge ao Tronco</li>
 </ul>
-</li>
-</ul>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="12">
-<h1>Desastre do Branch Release</h1>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="13">
+<h1>Fogo do Purgatório</h1>
 <ul>
 <li>Os desenvolvedores que fazem o retrabalho na maioria das vezes não são os mesmos que desenvolveram o código</li>
 <li>Algumas vezes o retrabalho é maior do que o trabalho feito no desenvolvimento do código original</li>
-<li>Fica cada vez mais difícil fazer merge de volta ao Branch Develop com o passar do tempo
+<li>Fica cada vez mais difícil fazer merge de volta ao Branch Develop com o passar do tempo</li>
+</ul>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="14">
+<h1>Desenvolvimento Baseado no Tronco</h1>
+<p><img src="/images/trunk1c.png" alt="" /></p>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="15">
+<h1>Desenvolvimento Baseado no Tronco</h1>
 <ul>
-<li>Os branches inevitavelmente divergem, portanto, à medida que mais Commits modificam o Branch Develop, fica mais difícil fazer os merges do Branch Release ao Branch Develop</li>
+<li>Desenvolvedores fazem a integração diretamente no Tronco</li>
+<li>O código cometido têm que estar saldáveis</li>
+<li>Branches de Feature de vida curta: 2 dias máximo</li>
+<li>Normas em organizações de alto desempenho, o como o <a href="../assets/why_google_store_billions_of_locs_in_a_single_repository.pdf">Google</a></li>
+<li>Implícita pela <a href="https://en.wikipedia.org/wiki/Continuous_integration">integração contínua</a></li>
+<li><a href="../assets/2016-State-of-DevOps-Report.pdf">Evidência Científica</a> de que contribui para um maior desempenho de entrega de Software</li>
+</ul>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="16">
+<h1>Branches de Release no Desenvolvimento Baseado no Tronco</h1>
+<ul>
+<li>Não são para correções
+<ul>
+<li>As correções são aplicadas diretamente ao Tronco</li>
+<li>As correções para as features incluídas na Release são copiadas (cherry-picked) do Tronco</li>
+</ul>
+</li>
+<li>Servem para fixar um conjunto de features para próxima release</li>
+<li>São apagadas algum tempo depois da release</li>
+</ul>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="17">
+<h1>Estratégias de Migração</h1>
+<ul>
+<li>Se o time usa feature branching de longa duração, o desenvolvimento baseado no tronco pode ser uma barreira para a melhoria</li>
+<li>A chave para sair da armadilha é aumentar a frequência de integração, enquanto mantém com uso de Branches de Release
+<ul>
+<li>A integração dos Branches de Release com Tronco não precisa esperar que a Release esteja completa</li>
+<li>O desenvolvimento dos Branches de Release pode seguir um estilo de desenvolvimento baseado no Tronco</li>
 </ul>
 </li>
 </ul>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="13">
-<h1>Desenvolvimento Baseado no Tronco</h1>
-<p><img src="../images/trunk1c.png" alt="" /></p>
 </section>
 <script>!function(){"use strict";const t="marpitSVGPolyfill:setZoomFactor,",e=Symbol();let r,o;function n(n){const i="object"==typeof n&&n.target||document,a="object"==typeof n?n.zoom:n;window[e]||(Object.defineProperty(window,e,{configurable:!0,value:!0}),window.addEventListener("message",(({data:e,origin:r})=>{if(r===window.origin)try{if(e&&"string"==typeof e&&e.startsWith(t)){const[,t]=e.split(","),r=Number.parseFloat(t);Number.isNaN(r)||(o=r)}}catch(t){console.error(t)}})));let l=!1;Array.from(i.querySelectorAll("svg[data-marpit-svg]"),(t=>{var e,n,i,s;t.style.transform||(t.style.transform="translateZ(0)");const c=a||o||t.currentScale||1;r!==c&&(r=c,l=c);const d=t.getBoundingClientRect(),{length:f}=t.children;for(let r=0;r<f;r+=1){const o=t.children[r];if(o.getScreenCTM){const t=o.getScreenCTM();if(t){const r=null!==(n=null===(e=o.x)||void 0===e?void 0:e.baseVal.value)&&void 0!==n?n:0,a=null!==(s=null===(i=o.y)||void 0===i?void 0:i.baseVal.value)&&void 0!==s?s:0,l=o.children.length;for(let e=0;e<l;e+=1){const n=o.children[e];if("SECTION"===n.tagName){const{style:e}=n;e.transformOrigin||(e.transformOrigin=`${-r}px ${-a}px`),e.transform=`scale(${c}) matrix(${t.a}, ${t.b}, ${t.c}, ${t.d}, ${t.e-d.left}, ${t.f-d.top}) translateZ(0.0001px)`;break}}}}}})),!1!==l&&Array.from(i.querySelectorAll("iframe"),(({contentWindow:e})=>{null==e||e.postMessage(`${t}${l}`,"null"===window.origin?"*":window.origin)}))}r=1,o=void 0;const i=(t,e,r)=>{if(t.getAttribute(e)!==r)return t.setAttribute(e,r),!0};function a({once:t=!1,target:e=document}={}){const r="Apple Computer, Inc."===navigator.vendor?[n]:[];let o=!t;const a=()=>{for(const t of r)t({target:e});!function(t=document){Array.from(t.querySelectorAll('svg[data-marp-fitting="svg"]'),(t=>{var e;const r=t.firstChild,o=r.firstChild,{scrollWidth:n,scrollHeight:a}=o;let l,s=1;if(t.hasAttribute("data-marp-fitting-code")&&(l=null===(e=t.parentElement)||void 0===e?void 0:e.parentElement),t.hasAttribute("data-marp-fitting-math")&&(l=t.parentElement),l){const t=getComputedStyle(l),e=Math.ceil(l.clientWidth-parseFloat(t.paddingLeft||"0")-parseFloat(t.paddingRight||"0"));e&&(s=e)}const c=Math.max(n,s),d=Math.max(a,1),f=`0 0 ${c} ${d}`;i(r,"width",`${c}`),i(r,"height",`${d}`),i(t,"preserveAspectRatio",getComputedStyle(t).getPropertyValue("--preserve-aspect-ratio")||"xMinYMin meet"),i(t,"viewBox",f)&&t.classList.toggle("__reflow__")}))}(e),o&&window.requestAnimationFrame(a)};return a(),()=>{o=!1}}const l=Symbol(),s=document.currentScript;((t=document)=>{if("undefined"==typeof window)throw new Error("Marp Core's browser script is valid only in browser context.");if(t[l])return t[l];const e=a({target:t}),r=()=>{e(),delete t[l]};Object.defineProperty(t,l,{configurable:!0,value:r})})(s?s.getRootNode():document)}();
 </script></foreignObject></svg></div><script>/*!! License: https://unpkg.com/@marp-team/marp-cli@1.7.1/lib/bespoke.js.LICENSE.txt */
